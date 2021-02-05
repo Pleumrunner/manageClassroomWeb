@@ -1,0 +1,28 @@
+[
+    {
+        "studentsID": 600610750,
+        "studentsName": "Chai",
+        "2020-12-11": 0,
+        "2020-12-12": 1,
+        "2020-12-13": 1,
+        "2020-12-14": 1,
+        "2020-12-15": 1,
+        "presents": 4,
+        "absents": 1,
+        "sessionAll": 5,
+        "percentage": 100
+    },
+    {
+        "studentsID": 600610751,
+        "studentsName": "Chaang",
+        "2020-12-11": 0,
+        "2020-12-12": 1,
+        "2020-12-13": 1,
+        "2020-12-14": 0,
+        "2020-12-15": 1,
+        "presents": 3,
+        "absents": 2,
+        "sessionAll": 5,
+        "percentage": 100
+    } 
+]
