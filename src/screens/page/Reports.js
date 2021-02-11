@@ -35,13 +35,13 @@ function Reports(props) {
   }, [teacherIDState, semester]);
 
   const head = [
-    "SessionID",
-    "Name",
-    "Start - End",
-    "Room",
-    "Late",
-    "Absent",
-    "Report file",
+    "รหัสวิชา",
+    "ชื่อวิชา",
+    "เวลาเรียน",
+    "ห้องเรียน",
+    "สาย",
+    "ขาด",
+    "ออกเอกสาร",
   ];
 
   const reportClassAPI = async (teacherID) => {
@@ -84,7 +84,7 @@ function Reports(props) {
     <div className="container-fluid pt-4 ">
       <div style={{ backgroundColor: "red" }}></div>
       <div className="box">
-        <h3 className="head_text">Report</h3>
+        <h3 className="head_text">ออกรายงาน</h3>
         <div className="box mt-5">
           <h4 className="head_text">
             <select
@@ -92,7 +92,7 @@ function Reports(props) {
               aria-label="Default select example"
               onChange={(e) => handleChange(e)}
             >
-              <option selected>Please select semester</option>
+              <option selected>กรุณาเรื่องภาคการศึกษา</option>
               <option value="2/2563">2/2563</option>
               <option value="1/2563">1/2563</option>
               <option value="2/2562">2/2562</option>
@@ -121,7 +121,7 @@ function Reports(props) {
                           aria-label="Default select example"
                           onChange={(evt) => onChangeEditLateTime(evt)}
                         >
-                          <option selected>Late</option>
+                          <option selected>สาย</option>
                           <option value="0">0</option>
                           <option value="15">15</option>
                           <option value="30">30</option>
@@ -134,7 +134,7 @@ function Reports(props) {
                           aria-label="Default select example"
                           onChange={(evt) => onChangeEditAbsentTime(evt)}
                         >
-                          <option selected>Absent</option>
+                          <option selected>ขาด</option>
                           <option value="15">15</option>
                           <option value="30">30</option>
                           <option value="45">45</option>

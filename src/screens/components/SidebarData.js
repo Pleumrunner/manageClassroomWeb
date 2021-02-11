@@ -6,13 +6,13 @@ import * as BsIcons from 'react-icons/bs';
 
 export const SidebarData = [
   {
-    title: 'Home',
+    title: 'หน้าแรก',
     path: '/',
     icon: <AiIcons.AiFillHome style={{ color: '#9F76B4'}}/>,
     cName: 'nav-text'
   },
   {
-    title: 'Reports',
+    title: 'ออกรายงาน',
     path: '/reports',
     icon: <IoIcons.IoIosPaper style={{ color: '#9F76B4'}}/>,
     cName: 'nav-text'

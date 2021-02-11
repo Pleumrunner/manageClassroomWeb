@@ -1,3 +1,4 @@
+
 import React from "react";
 import { useState, useEffect } from "react";
 import * as HiIcons from "react-icons/hi";
@@ -9,6 +10,8 @@ import {
   VictoryStack,
   VictoryPortal,
   VictoryLabel,
+  VictoryZoomContainer,
+  VictoryBrushContainer,
 } from "victory";
 const url = require("../components/urlConfig");
 
@@ -32,7 +35,6 @@ const attClassAPI = async (teacherID, uqID, date) => {
       .then((data) => {
         console.log(data);
         setAttClassState(data);
-        setAttClassStudent(data.statistics);
       })
       .catch((error) => {
         console.error(error);

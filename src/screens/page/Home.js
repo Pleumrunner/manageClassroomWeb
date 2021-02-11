@@ -1,5 +1,5 @@
 import React from "react";
-import { useState, useEffect} from "react";
+import { useState, useEffect } from "react";
 import * as FcIcons from "react-icons/fc";
 import "react-datepicker/dist/react-datepicker.css";
 import "../components/App.css";
@@ -29,7 +29,7 @@ function Home(props) {
   const [editClassSemester, setEditClassSemester] = useState(null);
   const [editClassUqId, setEditClassUqId] = useState(null);
 
-  const [removeClass, setRemoveClass] = useState({uqID:null,date:null});
+  const [removeClass, setRemoveClass] = useState({ uqID: null, date: null });
 
   const [teacherIDState, setTeacherIDState] = useState(null);
   const [selectedDate, setSelectedDate] = useState(new Date());
@@ -40,13 +40,13 @@ function Home(props) {
     </button>
   );
   const head = [
-    "Session ID",
-    "Name",
-    "Time",
-    "Room",
-    "Semester",
-    "Status",
-    "Management",
+    "รหัสวิชา",
+    "ชื่อวิชา",
+    "เวลา",
+    "ห้องเรียน",
+    "ภาคการศึกษา",
+    "สถานะห้องเรียน",
+    "การจัดการ",
   ];
   const papaparseOptions = {
     header: true,
@@ -57,10 +57,10 @@ function Home(props) {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setcurrentDate(moment(new Date()).format("YYYY-MM-DD").toString())
-      setcurrentTime(moment(new Date()).format("HH:mm").toString())
-      fetchClassAPI()
-      console.log('This will run every second!');
+      setcurrentDate(moment(new Date()).format("YYYY-MM-DD").toString());
+      setcurrentTime(moment(new Date()).format("HH:mm").toString());
+      fetchClassAPI();
+      console.log("This will run every second!");
     }, 60000);
     return () => clearInterval(interval);
   }, [sessionsData]);
@@ -71,12 +71,9 @@ function Home(props) {
     console.log(selectedDate);
     console.log(teacherIDState);
 
-    if(teacherIDState!=null)
-    fetchClassAPI();
-
+    if (teacherIDState != null) fetchClassAPI();
   }, [selectedDate, teacherIDState]);
 
-  
   const onChangeTextClassID = (event) => {
     setEditClassId(event.target.value);
     console.log(event.target.value);
@@ -102,7 +99,7 @@ function Home(props) {
     console.log(event.target.value);
   };
 
-  const removeClassByDate = async (uqID,date) => {
+  const removeClassByDate = async (uqID, date) => {
     await fetch(url.endpointWebApp + "/cancelSession", {
       method: "POST",
       headers: {
@@ -115,14 +112,14 @@ function Home(props) {
         date: date,
       }),
     })
-    .then((response) => response.json())
+      .then((response) => response.json())
       .then((data) => {
         console.log(data);
       })
       .catch((error) => {
         console.error(error);
       });
-  } 
+  };
 
   const fetchClassAPI = async () => {
     var teacherID = teacherIDState;
@@ -167,7 +164,7 @@ function Home(props) {
         ClassTeacherId: teacherIDState,
       }),
     })
-    .then((response) => response.json())
+      .then((response) => response.json())
       .then((data) => {
         console.log(data);
       })
@@ -180,7 +177,7 @@ function Home(props) {
     <div className="container-fluid pt-4">
       <div className="box">
         <div className="row">
-          <h3 className="head_text">My Classroom</h3>
+          <h3 className="head_text">รายวิชาที่เปิดสอน</h3>
           <div className="col-5 d-flex mt-3">
             <DatePicker
               selected={selectedDate}
@@ -208,13 +205,15 @@ function Home(props) {
                     <td>{t.desc}</td>
                     <td>{t.semester}</td>
                     {t.sessionStatus == -1 ? (
-                      <td style={{ color: "orange" }}>Waiting</td>
+                      <td style={{ color: "orange" }}>รอเปิดทำการเช็คชื่อ</td>
                     ) : t.sessionStatus == 0 ? (
-                      <td style={{ color: "green" }}>Openning</td>
+                      <td style={{ color: "green" }}>เปิดทำการเช็คชื่อแล้ว</td>
                     ) : t.sessionStatus == 1 ? (
-                      <td style={{ color: "red" }}>Closed</td>
+                      <td style={{ color: "red" }}>ปิดทำการเช็คชื่อแล้ว</td>
                     ) : (
-                      <td style={{ color: "blue" }}>In progress</td>
+                      <td style={{ color: "blue" }}>
+                        กรุณาเพิ่มรายชื่อนักศึกษา
+                      </td>
                     )}
                     <td>
                       {t.sessionStatus === -99 ? (
@@ -229,7 +228,7 @@ function Home(props) {
                             })
                           }
                         >
-                          Import Student
+                          เพิ่มรายชื่อนักศึกษา
                         </button>
                       ) : (
                         <button
@@ -237,36 +236,34 @@ function Home(props) {
                           className="btn btn-success mx-1"
                           onClick={() => {
                             props.history.push({
-                              pathname: '/Attendants',
-                              state: { 
+                              pathname: "/Attendants",
+                              state: {
                                 detailClass: t.uqID,
-                                selectedDate: t.currentDate
-                              }
-                            })
-                            }
-                          }
+                                selectedDate: t.currentDate,
+                              },
+                            });
+                          }}
                         >
-                          Attendance
+                          จักการรายชื่อนักศึกษา
                         </button>
                       )}
-                      {(t.sessionStatus === 0 || t.sessionStatus === 1) ? (
+                      {t.sessionStatus === 0 || t.sessionStatus === 1 ? (
                         <button
                           type="button"
                           className="btn btn-primary mx-1"
                           onClick={() => {
                             props.history.push({
-                              pathname: '/seatmap',
-                              state: { 
+                              pathname: "/seatmap",
+                              state: {
                                 detailClass: t.uqID,
-                                selectedDate: t.currentDate
-                              }
-                            })
-                            }
-                          }
+                                selectedDate: t.currentDate,
+                              },
+                            });
+                          }}
                         >
-                          Seatmap
+                          แผนผังที่นั่ง
                         </button>
-                      ):(null)}
+                      ) : null}
                       <button
                         type="button"
                         className="btn btn-info mx-1"
@@ -280,20 +277,19 @@ function Home(props) {
                           setEditClassEndTime(t.endTime);
                           setEditClassSemester(t.semester);
                           setEditClassUqId(t.uqID);
-                         }
-                        }
+                        }}
                       >
-                        Edit
+                        แก้ไขรายวิชา
                       </button>
                       <button
                         type="button"
                         className="btn btn-danger mx-1"
                         onClick={async () => {
-                          await removeClassByDate(t.uqID,t.currentDate);
-                          await fetchClassAPI()
+                          await removeClassByDate(t.uqID, t.currentDate);
+                          await fetchClassAPI();
                         }}
                       >
-                        Remove
+                        ลบห้องเรียน
                       </button>
                     </td>
                   </tr>
@@ -307,7 +303,7 @@ function Home(props) {
         <div className="modal-dialog">
           <div className="modal-content">
             <div className="modal-header">
-              <h5 className="modal-title head_text">Import students</h5>
+              <h5 className="modal-title head_text">เพิ่มรายชื่อนักศึกษา</h5>
             </div>
             <ExcelReader classData={selectedClassData} />
             <div className="modal-footer">
@@ -317,7 +313,7 @@ function Home(props) {
                 data-dismiss="modal"
                 onClick={() => fetchClassAPI()}
               >
-                Submit
+                ยืนยัน
               </button>
             </div>
           </div>
@@ -410,8 +406,8 @@ function Home(props) {
                   className="btn btn-success"
                   data-dismiss="modal"
                   onClick={async () => {
-                    await editClassDetail()
-                    await fetchClassAPI()
+                    await editClassDetail();
+                    await fetchClassAPI();
                   }}
                 >
                   Submit

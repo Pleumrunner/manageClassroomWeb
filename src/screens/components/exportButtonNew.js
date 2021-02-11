@@ -1,36 +1,60 @@
-import * as React from "react";
-import { useState, useEffect } from "react";
 
+import * as React from "react";
 import {
   ExcelExport,
   ExcelExportColumn,
   ExcelExportColumnGroup,
 } from "@progress/kendo-react-excel-export";
-import products from "./products.json";
-
-const data = products;
-const fields = Object.keys(data[0]);
-
-const classDetail = {
-  sessionID: "261111",
-  sessionName: "calculus1",
-  semester: "1/2563",
-};
-
-const myDate = [
-  "2020-12-11",
-  "2020-12-12",
-  "2020-12-13",
-  "2020-12-14",
-  "2020-12-15",
-];
+const url = require("../components/urlConfig");
 
 class App extends React.Component {
+  state = {
+    studentStat: [],
+    dateList: [],
+    classDetail : {}
+  };
+
   _exporter;
   export = () => {
     this._exporter.save();
   };
+
+  componentDidMount = async () => {
+    console.log(
+      this.props.teacherID,
+      this.props.uqID,
+      this.props.lateTime,
+      this.props.absentTime
+    );
+    await fetch(url.endpointWebApp + "/exportClassReport", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        teacherID: this.props.teacherID,
+        uqID: this.props.uqID,
+        lateTime: this.props.lateTime,
+        absentTime: this.props.absentTime,
+      }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        this.setState({
+          studentStat: data.myStudentReport,
+          dateList: data.classCheckedDateList,
+          classDetail: data.classDetail
+        });
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
   render() {
+    
     return (
       <div>
         <button
@@ -42,7 +66,7 @@ class App extends React.Component {
         </button>
 
         <ExcelExport
-          data={data}
+          data={this.state.studentStat}
           fileName="Products.xlsx"
           ref={(exporter) => {
             this._exporter = exporter;
@@ -50,11 +74,11 @@ class App extends React.Component {
         >
           <ExcelExportColumnGroup
             title={
-              classDetail.sessionName +
+              this.state.classDetail.sessionName +
               " " +
-              classDetail.sessionID +
+              this.state.classDetail.sessionID +
               " (" +
-              classDetail.semester +
+              this.state.classDetail.semester +
               ")"
             }
             headerCellOptions={{
@@ -64,16 +88,16 @@ class App extends React.Component {
             width={300}
           >
             <ExcelExportColumn
-              title="Students ID"
-              field="studentsID"
+              title="StudentID"
+              field="studentID"
               width={150}
               headerCellOptions={{
                 textAlign: "center",
               }}
             />
             <ExcelExportColumn
-              title="Students Name"
-              field="studentsName"
+              title="StudentName"
+              field="studentName"
               width={200}
               headerCellOptions={{
                 textAlign: "center",
@@ -85,42 +109,42 @@ class App extends React.Component {
                 textAlign: "center",
               }}
             >
-              {myDate.map((field) => (
+              {this.state.dateList.map((field) => (
                 <ExcelExportColumn
                   field={field}
-                  locked={field === "studentsID"}
+                  locked={field === "studentID"}
                   width={100}
                 />
               ))}
             </ExcelExportColumnGroup>
             <ExcelExportColumn
-              title="Presents"
-              field="presents"
-              width={50}
+              title="Present"
+              field="present"
+              width={70}
               headerCellOptions={{
                 textAlign: "center",
               }}
             />
             <ExcelExportColumn
               title="Absents"
-              field="absents"
-              width={50}
+              field="absent"
+              width={70}
               headerCellOptions={{
                 textAlign: "center",
               }}
             />
             <ExcelExportColumn
               title="Sessions all"
-              field="sessionAll"
-              width={50}
+              field="all"
+              width={70}
               headerCellOptions={{
                 textAlign: "center",
               }}
             />
             <ExcelExportColumn
               title="Percentage"
-              field="percentage"
-              width={70}
+              field="presentPercentage"
+              width={100}
               headerCellOptions={{
                 textAlign: "center",
               }}

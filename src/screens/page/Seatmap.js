@@ -1,6 +1,7 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import * as HiIcons from "react-icons/hi";
+import * as MdIcons from "react-icons/md";
 import ReactFlow from "react-flow-renderer";
 
 const url = require("../components/urlConfig");
@@ -58,7 +59,6 @@ function Seatmap(props) {
         console.log(mySeatmaps);
         console.log(data)
         setSeapMaps(mySeatmaps);
-        // setSeatmapClassState();
       })
       .catch((error) => {
         console.error(error);
@@ -111,7 +111,7 @@ function Seatmap(props) {
     <div className="container-fluid pt-4">
       <div className="box">
         <div className="row">
-          <h3 className="head_text">Seat Map</h3>
+          <h3 className="head_text">แผนผังที่นั่ง</h3>
         </div>
         <div className="row mt-5">
           <div className="box_subject">
@@ -147,6 +147,8 @@ function Seatmap(props) {
                           <button
                             type="button"
                             className="btn btn-success m-1"
+                            data-toggle="modal"
+                            data-target="#exampleModal"
                           >
                             {col}
                           </button>
@@ -155,8 +157,10 @@ function Seatmap(props) {
                         <div>
                           <button
                             type="button"
-                            className="btn btn-primary m-1"
-                          ></button>
+                            className="btn emty_seat m-1"
+                          >
+                          <MdIcons.MdEventSeat style={{color: "red"}}/>
+                          </button>
                         </div>
                       )}
                     </td>

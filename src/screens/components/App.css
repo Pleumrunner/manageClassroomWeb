@@ -142,3 +142,10 @@
 .check_list{
   color: #9E76B4;
 }
+
+.emty_seat{
+  width: 95%;
+  padding: 5px;
+  box-shadow: 1px 1px 5px #86858b;
+  border-radius: 15px;
+}

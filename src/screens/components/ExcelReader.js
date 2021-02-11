@@ -51,12 +51,6 @@ class ExcelReader extends Component {
       }
       console.log(myData)
 
-      /* Update state */
-      // this.setState({ data: data, cols: make_cols(ws["!ref"]) }, () => {
-      //   // console.log(JSON.stringify(this.state.data, null, 2));
-      //   // console.log('Test Set state')
-      //   this._addStudentTestAPI(this.props.classData.uqID,this.props.classData.teacherID);
-      // });
       this.setState({data:myData},() => {
         this._addStudentTestAPI(this.props.classData.uqID,this.props.classData.teacherID);
       })
@@ -103,7 +97,7 @@ class ExcelReader extends Component {
   render() {
     return (
       <div>
-        <label htmlFor="file">Upload an EXCEL or CSV</label>
+        <label htmlFor="file">เพิ่มไฟล์ EXCEL หรือ CSV</label>
         <br />
         <input
           type="file"
@@ -115,7 +109,8 @@ class ExcelReader extends Component {
         <br />
         <input
           type="submit"
-          value="Process Triggers"
+          value="บันทึก"
+          className="btn btn-primary mx-3"
           onClick={this.handleFile}
         />
       </div>

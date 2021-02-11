@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import * as HiIcons from "react-icons/hi";
 import * as MdIcons from "react-icons/md";
 import * as BsIcons from "react-icons/bs";
+// import Chart from "../components/chartAtt";
 import {
   VictoryBar,
   VictoryChart,
@@ -13,6 +14,7 @@ import {
   VictoryLabel,
 } from "victory";
 const url = require("../components/urlConfig");
+
 
 const moment = require("moment");
 
@@ -197,12 +199,12 @@ function Attandents(props) {
       });
   };
 
-  const head = ["Student ID", "Name", "Time", "Status"];
+  const head = ["รหัสนักศึกษา", "ชื่อนักศึกษา", "เวลาที่เข้าเรียน", "สถานะ"];
 
   return (
     <div className="container-fluid pt-4">
       <div className="box">
-        <h3 className="head_text">Attendance & stat</h3>
+        <h3 className="head_text">สถิติการเข้าห้อง</h3>
         <div className="row mt-5">
           <div className="col-5">
             <div className="box_subject">
@@ -213,10 +215,10 @@ function Attandents(props) {
                     <th className="p-1">{attClassState.id}</th>
                   </tr>
                   <tr>
-                    {attClassState.startTime} - {attClassState.endTime}
+                    เวลา:{attClassState.startTime} - {attClassState.endTime}
                   </tr>
                   <tr>
-                    room: {attClassState.desc}
+                    ห้องเรียน: {attClassState.desc}
                     <th className="pl-5">
                       {attClassState.present}
                       <HiIcons.HiUser style={{ color: "green" }} />
@@ -230,8 +232,8 @@ function Attandents(props) {
             <div className="att_pei">
               <VictoryPie
                 data={[
-                  { x: "present", y: attClassState.present },
-                  { x: "absent", y: attClassState.absent },
+                  { x: "เข้าเรียน", y: attClassState.present },
+                  { x: "ไม่เข้าเรียน", y: attClassState.absent },
                 ]}
                 width={300}
                 colorScale={["green", "red"]}
@@ -269,7 +271,7 @@ function Attandents(props) {
                   />
                 </VictoryStack>
                 <VictoryAxis
-                  label="Year-Month-Day"
+                  label="ปี-เดือน-วัน"
                   style={{
                     axisLabel: { padding: 30 },
                     tickLabels: { fontSize: 8, padding: 5 },
@@ -277,7 +279,7 @@ function Attandents(props) {
                 />
                 <VictoryAxis
                   dependentAxis
-                  label="Present of Student"
+                  label="จำนวนนักศึกษา"
                   style={{
                     axisLabel: { padding: 40 },
                   }}
@@ -289,7 +291,7 @@ function Attandents(props) {
         <div className="row mt-5">
           <div className="row">
             <div className="col">
-              <h3 className="head_text">Students list</h3>
+              <h3 className="head_text">รายชื่อนักศึกษา</h3>
             </div>
           </div>
           <div className="col mt-3 box">
@@ -339,7 +341,7 @@ function Attandents(props) {
                         );
                       }}
                     >
-                      Add
+                      เพิ่ม
                     </button>
                   </td>
                 </tr>
@@ -348,7 +350,7 @@ function Attandents(props) {
                     <td>{t.studentUqID}</td>
                     <td>{t.studentName}</td>
                     {t.timestamp == null ? (
-                      <td>Unknow</td>
+                      <td>ยังไม่ได้เช็คชื่อ</td>
                     ) : (
                       <td>{t.timestamp}</td>
                     )}
@@ -370,7 +372,7 @@ function Attandents(props) {
                             );
                           }}
                         >
-                          Uncheck
+                          ยกเลิกการเช็คชื่อ
                         </button>
                         <HiIcons.HiUser style={{ color: "green" }} />
                       </td>
@@ -392,7 +394,7 @@ function Attandents(props) {
                             );
                           }}
                         >
-                          Check
+                          เช็คชื่อ
                         </button>
                         <HiIcons.HiUser style={{ color: "red" }} />
                       </td>
@@ -414,7 +416,7 @@ function Attandents(props) {
                           );
                         }}
                       >
-                        Remove
+                        ลบ
                       </button>
                       <button
                         className="btn btn-primary mx-1"
@@ -430,7 +432,7 @@ function Attandents(props) {
                           );
                         }}
                       >
-                        statistic
+                        ข้อมูลการเข้าเรียน
                       </button>
                     </td>
                   </tr>
@@ -506,7 +508,7 @@ function Attandents(props) {
                 className="btn btn-secondary"
                 data-dismiss="modal"
               >
-                Close
+                ปิด
               </button>
             </div>
           </div>
