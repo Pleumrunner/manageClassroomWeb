@@ -11,9 +11,7 @@ function Seatmap(props) {
   const [teacherIDState, setTeacherIDState] = useState(null);
   const [seatmapClassState, setSeatmapClassState] = useState({});
   const [seatMaps, setSeapMaps] = useState([]);
-  const [nameProfileModal, setNameProfileModal] = useState("");
-  const [imageProfileModal, setImageProfileModal] = useState({});
-  const [idProfileModal, setIdProfileModal] = useState("");
+  const [profileModal, setProfileModal] = useState("");
 
   useEffect(() => {
     var teacherID = localStorage.getItem("teacherID");
@@ -60,12 +58,45 @@ function Seatmap(props) {
       .then((data) => {
         let mySeatmaps = get2DArrayGraphs(data);
         console.log(mySeatmaps);
-        console.log(data)
+        console.log(data);
         setSeapMaps(mySeatmaps);
       })
       .catch((error) => {
         console.error(error);
       });
+  };
+
+  const seatMapFetch = async (studentName) => {
+    setProfileModal({
+      studentID: "600610751",
+      studentName: "ปวริศ",
+      studentPhoto:
+        "https://www.flaticon.com/svg/vstatic/svg/2922/2922688.svg?token=exp=1613653932~hmac=585891ff61ed8370ec9498751ae728ac",
+      studentEmail: "basspleumdfr@gmail.com",
+    });
+    // await fetch(url.endpointWebApp + "/getSeatmapData", {
+    //   method: "POST",
+    //   headers: {
+    //     Accept: "application/json",
+    //     "Content-Type": "application/json",
+    //   },
+    //   body: JSON.stringify({
+    //     studentName: studentName,
+    //   }),
+    // })
+    //   .then((response) => response.json())
+    //   .then((data) => {
+    //     console.log(data);
+    //     setProfileModal({
+    //       studentID: "600610751",
+    //       studentName: "ปวริศ",
+    //       studentPhoto: "",
+    //       studentEmail: "basspleumdfr@gmail.com",
+    //     });
+    //   })
+    //   .catch((error) => {
+    //     console.error(error);
+    //   });
   };
 
   const get2DArrayGraphs = (graphs) => {
@@ -152,14 +183,8 @@ function Seatmap(props) {
                             className="btn btn-success m-1"
                             data-toggle="modal"
                             data-target="#profileStudent"
-                            onClick={async (e) => {
-                              setNameProfileModal({col});
-                              // setIdProfileModal();
-                              // // await studentStat(
-                              // //   attClassState.uqID,
-                              // //   t.studentID,
-                              // //   teacherIDState
-                              // // );
+                            onClick={() => {
+                              seatMapFetch(col);
                             }}
                           >
                             {col}
@@ -167,11 +192,8 @@ function Seatmap(props) {
                         </div>
                       ) : (
                         <div>
-                          <button
-                            type="button"
-                            className="btn emty_seat m-1"
-                          >
-                          <MdIcons.MdEventSeat style={{color: "red"}}/>
+                          <button type="button" className="btn emty_seat m-1">
+                            <MdIcons.MdEventSeat style={{ color: "red" }} />
                           </button>
                         </div>
                       )}
@@ -183,13 +205,19 @@ function Seatmap(props) {
           ))}
         </div>
       </div>
-      <div className="modal fade" id="editModal">
-      <div className="modal-dialog">
+      <div className="modal fade" id="profileStudent">
+        <div className="modal-dialog">
           <div className="modal-content">
             <div className="modal-header">
-              <h5 className="modal-title head_text" id="exampleModalLabel">
-                {nameProfileModal}
-              </h5>
+              <h5 className="modal-title head_text">ข้อมูลนักศึกษา</h5>
+            </div>
+            <div className="container box_subject mt-4">
+              <img src={profileModal.studentPhoto}></img>
+            </div>
+            <div className="m-5">
+              <p>ชื่อนักศึกษา: {profileModal.studentName}</p>
+              <p>รหัสนักศึกษา: {profileModal.studentID}</p>
+              <p>อีเมลล์: {profileModal.studentEmail}</p>
             </div>
           </div>
         </div>

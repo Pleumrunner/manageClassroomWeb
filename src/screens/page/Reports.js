@@ -14,6 +14,13 @@ function Reports(props) {
 
   const [selectedClassData, setSelectedClassData] = useState(null);
 
+  const [classId, setClassId] = useState();
+  const [className, setClassName] = useState();
+  const [time, setTime] = useState();
+  const [classRoom, setClassRoom] = useState();
+  const [late, setLate] = useState();
+  const [absent, setAbsent] = useState();
+
   useEffect(() => {
     if (
       selectedClassData != null &&
@@ -149,6 +156,20 @@ function Reports(props) {
                           teacherID={teacherIDState}
                         />
                       </div>
+                      {/* <div>
+                        <button
+                          onClick={async (e) => {
+                            setClassId(t.classID)
+                            setClassName(t.className)
+                            setClassRoom(t.classDesc)
+                            setTime(t.time)
+                            setLate(onChangeEditLateTime(e))
+                            setAbsent(onChangeEditAbsentTime(e))
+                          }}
+                        >
+                          ทดสอบ
+                        </button>
+                      </div> */}
                     </tr>
                   ))}
                 </tbody>
@@ -165,4 +186,3 @@ export default Reports;
 {
   /* <ExportComponent uqID={t.classUqID} lateTime={editLateTime} absentTime={editAbsentTime} /> */
 }
-
