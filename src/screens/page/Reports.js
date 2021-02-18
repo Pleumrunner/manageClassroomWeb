@@ -92,7 +92,7 @@ function Reports(props) {
               aria-label="Default select example"
               onChange={(e) => handleChange(e)}
             >
-              <option selected>กรุณาเรื่องภาคการศึกษา</option>
+              <option selected>กรุณาเลือกภาคการศึกษา</option>
               <option value="2/2563">2/2563</option>
               <option value="1/2563">1/2563</option>
               <option value="2/2562">2/2562</option>

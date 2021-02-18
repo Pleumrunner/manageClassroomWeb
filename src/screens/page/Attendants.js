@@ -330,8 +330,8 @@ function Attandents(props) {
                       onClick={async (e) => {
                         await addStudent(
                           attClassState.uqID,
-                          addStudentName,
                           addStudentID,
+                          addStudentName,
                           teacherIDState
                         );
                         await attClassAPI(

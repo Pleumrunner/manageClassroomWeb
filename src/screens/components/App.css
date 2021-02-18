@@ -1,4 +1,14 @@
 
+@import 'https://fonts.googleapis.com/css?family=Kanit|Prompt';
+
+body{
+    font-family: 'Kanit', sans-serif;
+}
+
+*{
+    font-family: 'Prompt', sans-serif;
+}
+
 .App {
   text-align: center;
 }

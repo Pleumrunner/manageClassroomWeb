@@ -11,6 +11,9 @@ function Seatmap(props) {
   const [teacherIDState, setTeacherIDState] = useState(null);
   const [seatmapClassState, setSeatmapClassState] = useState({});
   const [seatMaps, setSeapMaps] = useState([]);
+  const [nameProfileModal, setNameProfileModal] = useState("");
+  const [imageProfileModal, setImageProfileModal] = useState({});
+  const [idProfileModal, setIdProfileModal] = useState("");
 
   useEffect(() => {
     var teacherID = localStorage.getItem("teacherID");
@@ -148,7 +151,16 @@ function Seatmap(props) {
                             type="button"
                             className="btn btn-success m-1"
                             data-toggle="modal"
-                            data-target="#exampleModal"
+                            data-target="#profileStudent"
+                            onClick={async (e) => {
+                              setNameProfileModal({col});
+                              // setIdProfileModal();
+                              // // await studentStat(
+                              // //   attClassState.uqID,
+                              // //   t.studentID,
+                              // //   teacherIDState
+                              // // );
+                            }}
                           >
                             {col}
                           </button>
@@ -169,6 +181,17 @@ function Seatmap(props) {
               ))}
             </div>
           ))}
+        </div>
+      </div>
+      <div className="modal fade" id="editModal">
+      <div className="modal-dialog">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5 className="modal-title head_text" id="exampleModalLabel">
+                {nameProfileModal}
+              </h5>
+            </div>
+          </div>
         </div>
       </div>
     </div>

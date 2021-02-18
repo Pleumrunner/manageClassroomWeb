@@ -62,7 +62,7 @@ class App extends React.Component {
           className="btn btn-success mx-1"
           onClick={this.export}
         >
-          Export Excel
+          ออกรายงาน Excel
         </button>
 
         <ExcelExport

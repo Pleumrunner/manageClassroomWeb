@@ -1,3 +1,13 @@
+@import 'https://fonts.googleapis.com/css?family=Kanit|Prompt';
+
+body{
+    font-family: 'Kanit', sans-serif;
+}
+
+h1,h2,h3{
+    font-family: 'Prompt', sans-serif;
+}
+
 .navbar {
     background-color: #9F76B4;
     height: 80px;
