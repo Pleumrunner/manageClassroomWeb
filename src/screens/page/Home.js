@@ -28,6 +28,7 @@ function Home(props) {
   const [editClassDesc, setEditClassDesc] = useState(null);
   const [editClassSemester, setEditClassSemester] = useState(null);
   const [editClassUqId, setEditClassUqId] = useState(null);
+  const [selectClassCurrentDate, setSelectClassCurrentDate] = useState(null);
 
   const [removeClass, setRemoveClass] = useState({ uqID: null, date: null });
 
@@ -244,7 +245,7 @@ function Home(props) {
                             });
                           }}
                         >
-                          จักการรายชื่อนักศึกษา
+                          สถิติการเข้าห้อง
                         </button>
                       )}
                       {t.sessionStatus === 0 || t.sessionStatus === 1 ? (
@@ -279,17 +280,25 @@ function Home(props) {
                           setEditClassUqId(t.uqID);
                         }}
                       >
-                        แก้ไขรายวิชา
+                        แก้ไขข้อมูลห้อง
                       </button>
                       <button
                         type="button"
                         className="btn btn-danger mx-1"
-                        onClick={async () => {
-                          await removeClassByDate(t.uqID, t.currentDate);
-                          await fetchClassAPI();
+                        data-toggle="modal"
+                        data-target="#removeClass"
+                        onClick={() => {
+                          setEditClassId(t.id);
+                          setEditClassName(t.name);
+                          setEditClassDesc(t.desc);
+                          setEditClassStartTime(t.startTime);
+                          setEditClassEndTime(t.endTime);
+                          setEditClassSemester(t.semester);
+                          setEditClassUqId(t.uqID);
+                          setSelectClassCurrentDate(t.currentDate);
                         }}
                       >
-                        ลบห้องเรียน
+                        ลบห้องเช็คชื่อ
                       </button>
                     </td>
                   </tr>
@@ -305,7 +314,10 @@ function Home(props) {
             <div className="modal-header">
               <h5 className="modal-title head_text">เพิ่มรายชื่อนักศึกษา</h5>
             </div>
-            <ExcelReader classData={selectedClassData} />
+            <h5>กรุณาใส่ไฟล์ชื่อนักศึกษาภาษาอังกฤษ</h5>
+            <ExcelReader className="ml-2" classData={selectedClassData} />
+            <h5>กรุณาใส่ไฟล์ชื่อนักศึกษาภาษาไทย</h5>
+            <ExcelReader className="ml-2" classData={selectedClassData} />
             <div className="modal-footer">
               <button
                 type="button"
@@ -323,13 +335,13 @@ function Home(props) {
         <div className="modal-dialog">
           <div className="modal-content">
             <div className="modal-header">
-              <h5 className="modal-title head_text">Edit Session</h5>
+              <h5 className="modal-title head_text">แก้ไขข้อมูลห้อง</h5>
             </div>
             <div className="container mt-3">
               <form className="row g-3">
                 <div className="col-6">
                   <label for="inputAddress" className="form-label">
-                    Session ID
+                    รหัสวิชา
                   </label>
                   <input
                     type="text"
@@ -341,7 +353,7 @@ function Home(props) {
                 </div>
                 <div className="col-6">
                   <label for="inputAddress" className="form-label">
-                    Session name
+                    ชื่อวิชา
                   </label>
                   <input
                     type="text"
@@ -353,7 +365,7 @@ function Home(props) {
                 </div>
                 <div className="col-6">
                   <label for="inputAddress" className="form-label">
-                    Start time
+                    เวลาเรียน
                   </label>
                   <input
                     type="text"
@@ -365,7 +377,7 @@ function Home(props) {
                 </div>
                 <div className="col-6">
                   <label for="inputAddress" className="form-label">
-                    End time
+                    เวลาเลิกเรียน
                   </label>
                   <input
                     type="text"
@@ -377,7 +389,7 @@ function Home(props) {
                 </div>
                 <div className="col-6">
                   <label for="inputAddress" className="form-label">
-                    Room
+                    ห้องเรียน
                   </label>
                   <input
                     type="text"
@@ -389,7 +401,7 @@ function Home(props) {
                 </div>
                 <div className="col-6">
                   <label for="inputAddress" className="form-label">
-                    Semester
+                    ภาคการศึกษา
                   </label>
                   <input
                     type="text"
@@ -410,9 +422,43 @@ function Home(props) {
                     await fetchClassAPI();
                   }}
                 >
-                  Submit
+                  ยืนยัน
                 </button>
               </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="modal fade" id="removeClass">
+        <div className="modal-dialog">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5 className="modal-title head_text">ยืนยันที่จะลบห้องเรียน</h5>
+            </div>
+            <div className="box mt-3">
+              <h6>รหัสวิชา: {editClassId}</h6>
+              <h6>ชื่อวิชา: {editClassName}</h6>
+              <h6>
+                เวลา: {editClassStartTime} - {editClassEndTime}
+              </h6>
+              <h6>ห้องเรียน: {editClassDesc}</h6>
+              <h6>ภาคการศึกษา: {editClassSemester}</h6>
+            </div>
+            <div className="modal-footer mt-3">
+              <button
+                type="button"
+                className="btn btn-success"
+                data-dismiss="modal"
+                onClick={async () => {
+                  await removeClassByDate(
+                    editClassUqId,
+                    selectClassCurrentDate
+                  );
+                  await fetchClassAPI();
+                }}
+              >
+                ยืนยัน
+              </button>
             </div>
           </div>
         </div>

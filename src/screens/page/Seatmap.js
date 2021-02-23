@@ -25,6 +25,11 @@ function Seatmap(props) {
         props.location.state.detailClass,
         props.location.state.selectedDate
       );
+      await setDataClass(
+        teacherIDState,
+        props.location.state.detailClass,
+        props.location.state.selectedDate
+      )
     };
 
     if (teacherIDState != null) fetchSeatmap();
@@ -59,7 +64,31 @@ function Seatmap(props) {
         let mySeatmaps = get2DArrayGraphs(data);
         console.log(mySeatmaps);
         console.log(data);
+        setSeatmapClassState(data);
         setSeapMaps(mySeatmaps);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
+  const setDataClass = async (teacherID, uqID, date) => {
+    await fetch(url.endpointWebApp + "/attendance", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        attClassUqID: uqID,
+        attClassTeacherID: teacherID,
+        attClassCurrentDate: date,
+      }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        setSeatmapClassState(data);
       })
       .catch((error) => {
         console.error(error);
@@ -152,8 +181,8 @@ function Seatmap(props) {
             <tr>
               <td>
                 <tr>
-                  <th className="p-1">{seatmapClassState.name}</th>
-                  <th className="p-1">{seatmapClassState.id}</th>
+                  <th className="p-1">ชื่อวิชา: {seatmapClassState.name}</th>
+                  <th className="p-1">รหัสวิชา: {seatmapClassState.id}</th>
                 </tr>
                 <tr>
                   {seatmapClassState.startTime} - {seatmapClassState.endTime}

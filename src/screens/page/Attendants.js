@@ -15,7 +15,6 @@ import {
 } from "victory";
 const url = require("../components/urlConfig");
 
-
 const moment = require("moment");
 
 function Attandents(props) {
@@ -33,6 +32,8 @@ function Attandents(props) {
   const [studentStatChart, setStudentStatChart] = useState({});
 
   useEffect(() => {
+    // console.log(props.location.state.detailClass);
+    // console.log(props.location.state.selectedDate);
     var teacherID = localStorage.getItem("teacherID");
     setTeacherIDState(teacherID);
   }, []);
@@ -128,6 +129,52 @@ function Attandents(props) {
       });
   };
 
+  const checkAll = async (teacherId, uqID, date) => {
+    console.log(teacherId, uqID, date);
+    await fetch(url.endpointWebApp + "/checkAllStudent", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        teacherID: teacherId,
+        uqID: uqID,
+        date: date,
+      }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
+  const uncheckAll = async (teacherId, uqID, date) => {
+    console.log(teacherId, uqID, date);
+    await fetch(url.endpointWebApp + "/uncheckAllStudent", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        teacherID: teacherId,
+        uqID: uqID,
+        date: date,
+      }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
   const checkStudent = async (uqID, date, studentID, teacherID) => {
     console.log(studentID);
     await fetch(url.endpointWebApp + "/checkStudent", {
@@ -211,8 +258,8 @@ function Attandents(props) {
               <tr>
                 <td>
                   <tr>
-                    <th className="p-1">{attClassState.name}</th>
-                    <th className="p-1">{attClassState.id}</th>
+                    <th className="p-1">ชื่อวิชา: {attClassState.name}</th>
+                    <th className="p-1">รหัสวิชา: {attClassState.id}</th>
                   </tr>
                   <tr>
                     เวลา:{attClassState.startTime} - {attClassState.endTime}
@@ -291,7 +338,48 @@ function Attandents(props) {
         <div className="row mt-5">
           <div className="row">
             <div className="col">
-              <h3 className="head_text">รายชื่อนักศึกษา</h3>
+              <td className="col-8">
+                <h3 className="head_text">รายชื่อนักศึกษา</h3>
+              </td>
+              <td className="col-1"></td>
+              <td>
+                <button
+                  type="button"
+                  className="btn btn-danger mx-2"
+                  onClick={async () => {
+                    await uncheckAll(
+                      attClassState.teacherID,
+                      attClassState.uqID,
+                      attClassState.currentDate
+                    );
+                    await attClassAPI(
+                      teacherIDState,
+                      props.location.state.detailClass,
+                      props.location.state.selectedDate
+                    );
+                  }}
+                >
+                  ยกเลิกเช็คชื่อทั้งหมด
+                </button>
+                <button
+                  type="button"
+                  className="btn btn-primary"
+                  onClick={async () => {
+                    await checkAll(
+                      attClassState.teacherID,
+                      attClassState.uqID,
+                      attClassState.currentDate
+                    );
+                    await attClassAPI(
+                      teacherIDState,
+                      props.location.state.detailClass,
+                      props.location.state.selectedDate
+                    );
+                  }}
+                >
+                  เช็คชื่อทั้งหมด
+                </button>
+              </td>
             </div>
           </div>
           <div className="col mt-3 box">
@@ -469,10 +557,10 @@ function Attandents(props) {
                 />
               </div>
               <tbody>
-                <h3 className="head_text pt-3">Checking list</h3>
+                <h3 className="head_text pt-3">รายการเช็คชื่อ</h3>
                 {checkList.map((t, idx) => (
-                  <tr className="check_list" key={idx}>
-                    {t.date} ------ status -----{" "}
+                  <tr className="check_list ml-3" key={idx}>
+                    {t.date} สถานะ{" "}
                     {t.classStatus == -1 ? (
                       <td>
                         Waiting

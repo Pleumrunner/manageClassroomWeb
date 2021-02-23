@@ -91,7 +91,7 @@ function Reports(props) {
     <div className="container-fluid pt-4 ">
       <div style={{ backgroundColor: "red" }}></div>
       <div className="box">
-        <h3 className="head_text">ออกรายงาน</h3>
+        <h3 className="head_text">สร้างรายงาน</h3>
         <div className="box mt-5">
           <h4 className="head_text">
             <select
