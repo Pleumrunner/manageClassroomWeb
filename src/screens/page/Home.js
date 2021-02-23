@@ -314,10 +314,10 @@ function Home(props) {
             <div className="modal-header">
               <h5 className="modal-title head_text">เพิ่มรายชื่อนักศึกษา</h5>
             </div>
-            <h5>กรุณาใส่ไฟล์ชื่อนักศึกษาภาษาอังกฤษ</h5>
-            <ExcelReader className="ml-2" classData={selectedClassData} />
-            <h5>กรุณาใส่ไฟล์ชื่อนักศึกษาภาษาไทย</h5>
-            <ExcelReader className="ml-2" classData={selectedClassData} />
+            <h5 className="mx-2">กรุณาใส่ไฟล์ชื่อนักศึกษาภาษาอังกฤษ</h5>
+            <ExcelReader className="m-2" classData={selectedClassData} />
+            <h5 className="mx-2">กรุณาใส่ไฟล์ชื่อนักศึกษาภาษาไทย</h5>
+            <ExcelReader className="m-2" classData={selectedClassData} />
             <div className="modal-footer">
               <button
                 type="button"
