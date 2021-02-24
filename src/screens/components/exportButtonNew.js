@@ -26,31 +26,31 @@ class App extends React.Component {
       this.props.lateTime,
       this.props.absentTime
     );
-    await fetch(url.endpointWebApp + "/exportClassReport", {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        teacherID: this.props.teacherID,
-        uqID: this.props.uqID,
-        lateTime: this.props.lateTime,
-        absentTime: this.props.absentTime,
-      }),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-        this.setState({
-          studentStat: data.myStudentReport,
-          dateList: data.classCheckedDateList,
-          classDetail: data.classDetail
-        });
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    // await fetch(url.endpointWebApp + "/exportClassReport", {
+    //   method: "POST",
+    //   headers: {
+    //     Accept: "application/json",
+    //     "Content-Type": "application/json",
+    //   },
+    //   body: JSON.stringify({
+    //     teacherID: this.props.teacherID,
+    //     uqID: this.props.uqID,
+    //     lateTime: this.props.lateTime,
+    //     absentTime: this.props.absentTime,
+    //   }),
+    // })
+    //   .then((response) => response.json())
+    //   .then((data) => {
+    //     console.log(data);
+    //     this.setState({
+    //       studentStat: data.myStudentReport,
+    //       dateList: data.classCheckedDateList,
+    //       classDetail: data.classDetail
+    //     });
+    //   })
+    //   .catch((error) => {
+    //     console.error(error);
+    //   });
   };
 
   render() {

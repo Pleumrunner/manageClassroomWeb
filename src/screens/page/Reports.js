@@ -1,6 +1,7 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import ExportComponent from "../components/exportButtonNew";
+import ReportRow from '../components/reportRow'
 const url = require("../components/urlConfig");
 
 function Reports(props) {
@@ -14,12 +15,10 @@ function Reports(props) {
 
   const [selectedClassData, setSelectedClassData] = useState(null);
 
-  const [classId, setClassId] = useState();
-  const [className, setClassName] = useState();
-  const [time, setTime] = useState();
-  const [classRoom, setClassRoom] = useState();
-  const [late, setLate] = useState();
-  const [absent, setAbsent] = useState();
+
+
+  const [selectedRowData,setSelectedRowData] = useState({})
+  const [isReportCreate,setIsReportCreate] = useState(false)
 
   useEffect(() => {
     if (
@@ -50,6 +49,8 @@ function Reports(props) {
     "ขาด",
     "ออกเอกสาร",
   ];
+
+
 
   const reportClassAPI = async (teacherID) => {
     await fetch(url.endpointWebApp + "/getClassReport", {
@@ -87,9 +88,23 @@ function Reports(props) {
     console.log(event.target.value);
   };
 
+  function reply_click(clicked_id)
+  {
+      alert(clicked_id);
+  }
+
+  const exportReport = (uqID,late,absent,teacherID) => (
+    // console.log(uqID,late,absent,teacherID)
+    <ExportComponent
+    uqID={uqID}
+    lateTime={late}
+    absentTime={absent}
+    teacherID={teacherID}
+  />
+  )
+
   return (
     <div className="container-fluid pt-4 ">
-      <div style={{ backgroundColor: "red" }}></div>
       <div className="box">
         <h3 className="head_text">สร้างรายงาน</h3>
         <div className="box mt-5">
@@ -113,6 +128,8 @@ function Reports(props) {
                     <th key={idx}>{h}</th>
                   ))}
                 </thead>
+                {/* {reportClass.map((t, idex) => (
+                <ReportRow uqID={t.classUqID} key={idex} />))} */}
                 <tbody>
                   {reportClass.map((t, idex) => (
                     <tr key={idex}>
@@ -127,6 +144,7 @@ function Reports(props) {
                           className="select-report"
                           aria-label="Default select example"
                           onChange={(evt) => onChangeEditLateTime(evt)}
+                          id={t.classUqID+'-'+'late'}
                         >
                           <option selected>สาย</option>
                           <option value="0">0</option>
@@ -140,6 +158,7 @@ function Reports(props) {
                           className="select-report"
                           aria-label="Default select example"
                           onChange={(evt) => onChangeEditAbsentTime(evt)}
+                          id={t.classUqID+'-'+'absent'}
                         >
                           <option selected>ขาด</option>
                           <option value="15">15</option>
@@ -149,27 +168,57 @@ function Reports(props) {
                         </select>
                       </td>
                       <div>
-                        <ExportComponent
-                          uqID={t.classUqID}
-                          lateTime={editLateTime}
-                          absentTime={editAbsentTime}
-                          teacherID={teacherIDState}
-                        />
-                      </div>
-                      {/* <div>
+                        
                         <button
-                          onClick={async (e) => {
-                            setClassId(t.classID)
-                            setClassName(t.className)
-                            setClassRoom(t.classDesc)
-                            setTime(t.time)
-                            setLate(onChangeEditLateTime(e))
-                            setAbsent(onChangeEditAbsentTime(e))
+                          type="button"
+                          className="btn btn-danger"
+                          id={t.classUqID}
+                          onClick={(e) => {
+                            // setClassName(t.className)
+                            // setClassId(t.classID)
+                            // setStartTime(t.classStartTime)
+                            // setEndTime(t.classEndTime)
+                            // setClassRoom(t.classDesc)
+                            // setLate(editLateTime)
+                            // setAbsent(editAbsentTime)
+                            // console.log(t.className,t.classID,t.classStartTime,t.classEndTime,t.classDesc)
+                            // reply_click(this)
+                            // console.log(e.currentTarget.id)
+                            var lateTime = document.getElementById(t.classUqID+'-'+'late');
+                            var absentTime = document.getElementById(t.classUqID+'-'+'absent');
+
+                            var strLateTime = lateTime.options[lateTime.selectedIndex].text;
+                            
+                            var strAbsentTime = absentTime.options[absentTime.selectedIndex].text;
+                            if(strAbsentTime == 'ขาด'){ strAbsentTime = null}
+                            if(strLateTime == 'สาย'){ strLateTime = null}
+                            console.log(`late: ${strLateTime} absent: ${strAbsentTime}`)
+                            console.log(t.className,t.classID,t.classStartTime,t.classEndTime,t.classDesc)
+                            
+                            setSelectedClassData({
+                              uqID :t.classUqID,
+                              late : strLateTime,
+                              absent : strAbsentTime,
+                              teacherID : teacherIDState
+                            })
+                            setIsReportCreate(true)
+
                           }}
+                          
                         >
-                          ทดสอบ
+                          test
                         </button>
-                      </div> */}
+                        {
+                          isReportCreate && 
+                          <ExportComponent
+                          uqID={selectedRowData.uqID}
+                          lateTime={selectedRowData.late}
+                          absentTime={selectedRowData.absent}
+                          teacherID={selectedRowData.teacherID}
+                        />
+                        }
+                        
+                      </div>
                     </tr>
                   ))}
                 </tbody>
