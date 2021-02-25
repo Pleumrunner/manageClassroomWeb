@@ -1,4 +1,3 @@
-
 import * as React from "react";
 import {
   ExcelExport,
@@ -11,50 +10,56 @@ class App extends React.Component {
   state = {
     studentStat: [],
     dateList: [],
-    classDetail : {}
+    classDetail: {},
   };
 
   _exporter;
-  export = () => {
-    this._exporter.save();
+
+  fetchClassReport = (result) => {
+    fetch(url.endpointWebApp + "/exportClassReport", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        teacherID: result.teacherID,
+        uqID: result.uqID,
+        lateTime: result.lateTime,
+        absentTime: result.absentTime,
+      }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        this.setState({
+          studentStat: data.myStudentReport,
+          dateList: data.classCheckedDateList,
+          classDetail: data.classDetail,
+        });
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   };
 
-  componentDidMount = async () => {
+  export = async () => {
     console.log(
       this.props.teacherID,
       this.props.uqID,
       this.props.lateTime,
       this.props.absentTime
     );
-    // await fetch(url.endpointWebApp + "/exportClassReport", {
-    //   method: "POST",
-    //   headers: {
-    //     Accept: "application/json",
-    //     "Content-Type": "application/json",
-    //   },
-    //   body: JSON.stringify({
-    //     teacherID: this.props.teacherID,
-    //     uqID: this.props.uqID,
-    //     lateTime: this.props.lateTime,
-    //     absentTime: this.props.absentTime,
-    //   }),
-    // })
-    //   .then((response) => response.json())
-    //   .then((data) => {
-    //     console.log(data);
-    //     this.setState({
-    //       studentStat: data.myStudentReport,
-    //       dateList: data.classCheckedDateList,
-    //       classDetail: data.classDetail
-    //     });
-    //   })
-    //   .catch((error) => {
-    //     console.error(error);
-    //   });
+    this.props
+      .handleSelectRowClick()
+      .then(async (res) => {
+        this.fetchClassReport(res);
+        console.log(res);
+        this._exporter.save();
+      })
+      .catch((err) => {});
   };
 
   render() {
-    
     return (
       <div>
         <button
@@ -155,5 +160,4 @@ class App extends React.Component {
     );
   }
 }
-
 export default App;
