@@ -28,18 +28,22 @@ function Home(props) {
   const [editClassDesc, setEditClassDesc] = useState(null);
   const [editClassSemester, setEditClassSemester] = useState(null);
   const [editClassUqId, setEditClassUqId] = useState(null);
+  const [editClassStartDate, setEditClassStartDate] = useState({});
+  const [editClassEndDate, setEditClassEndDate] = useState({});
   const [selectClassCurrentDate, setSelectClassCurrentDate] = useState(null);
 
   const [removeClass, setRemoveClass] = useState({ uqID: null, date: null });
 
   const [teacherIDState, setTeacherIDState] = useState(null);
   const [selectedDate, setSelectedDate] = useState(new Date());
+
   const ExampleCustomInput = ({ value, onClick }) => (
     <button className="bt btn" onClick={onClick}>
       <FcIcons.FcCalendar className="mr-3 menu-bars" />
       {value}
     </button>
   );
+
   const head = [
     "รหัสวิชา",
     "ชื่อวิชา",
@@ -336,6 +340,30 @@ function Home(props) {
           <div className="modal-content">
             <div className="modal-header">
               <h5 className="modal-title head_text">แก้ไขข้อมูลห้อง</h5>
+            </div>
+            <div className="col-6">
+              <label for="inputAddress" className="form-label mt-3 ml-3">
+                วันเปิดภาคเรียน
+              </label>
+              <div className="col-5 d-flex ml-3">
+                <DatePicker
+                  selected={selectedDate}
+                  onChange={(date) => setSelectedDate(date)}
+                  customInput={<ExampleCustomInput />}
+                />
+              </div>
+            </div>
+            <div className="col-6">
+              <label for="inputAddress" className="form-label mt-3 ml-3">
+                วันจบภาคเรียน
+              </label>
+              <div className="col-5 d-flex ml-3">
+                <DatePicker
+                  selected={selectedDate}
+                  onChange={(date) => setSelectedDate(date)}
+                  customInput={<ExampleCustomInput />}
+                />
+              </div>
             </div>
             <div className="container mt-3">
               <form className="row g-3">
