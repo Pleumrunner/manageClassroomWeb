@@ -25,7 +25,7 @@ body{
 .select-report {
   font-size: 15px;
   box-shadow: 1px 1px 5px #86858b;
-  border-radius: 5px;
+  border-radius: 3px;
   border: none;
   width: 50px;
   height: 30px;
@@ -140,7 +140,7 @@ body{
 }
 
 .box_s {
-  background-color: red;
+  background-color: #9E76B4;
   box-shadow: 1px 1px 5px #86858b;
   border-radius: 15px;
   width: auto;
@@ -158,4 +158,8 @@ body{
   padding: 5px;
   box-shadow: 1px 1px 5px #86858b;
   border-radius: 15px;
+}
+
+.calendar_range{
+  background: rgb(134, 132, 132);
 }

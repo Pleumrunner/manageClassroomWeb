@@ -1,10 +1,13 @@
-import React from "react";
+import React, { Component } from "react";
 import { useState, useEffect } from "react";
 import * as FcIcons from "react-icons/fc";
 import "react-datepicker/dist/react-datepicker.css";
 import "../components/App.css";
 import ExcelReader from "../components/ExcelReader";
 import DatePicker from "react-datepicker";
+import { DateRange } from "react-date-range";
+import "react-date-range/dist/styles.css"; // main css file
+import "react-date-range/dist/theme/default.css"; // theme css file
 
 const url = require("../components/urlConfig");
 
@@ -28,11 +31,9 @@ function Home(props) {
   const [editClassDesc, setEditClassDesc] = useState(null);
   const [editClassSemester, setEditClassSemester] = useState(null);
   const [editClassUqId, setEditClassUqId] = useState(null);
-  const [editClassStartDate, setEditClassStartDate] = useState({});
-  const [editClassEndDate, setEditClassEndDate] = useState({});
+  const [editStartDate, setEditStartDate] = useState(new Date());
+  const [editEndDate, setEditEndDate] = useState(new Date());
   const [selectClassCurrentDate, setSelectClassCurrentDate] = useState(null);
-
-  const [removeClass, setRemoveClass] = useState({ uqID: null, date: null });
 
   const [teacherIDState, setTeacherIDState] = useState(null);
   const [selectedDate, setSelectedDate] = useState(new Date());
@@ -165,6 +166,8 @@ function Home(props) {
         editClassEndTime: editClassEndTime,
         editClassDesc: editClassDesc,
         editClassSemester: editClassSemester,
+        editStartDate: editStartDate,
+        editEndDate: editEndDate,
         ClassUqId: editClassUqId,
         ClassTeacherId: teacherIDState,
       }),
@@ -343,24 +346,32 @@ function Home(props) {
             </div>
             <div className="col-6">
               <label for="inputAddress" className="form-label mt-3 ml-3">
-                วันเปิดภาคเรียน
+                ต้องการเปิดห้องเรียน
               </label>
-              <div className="col-5 d-flex ml-3">
+              <div className="col-5 d-flex ml-5">
                 <DatePicker
-                  selected={selectedDate}
-                  onChange={(date) => setSelectedDate(date)}
+                  selected={editStartDate}
+                  onChange={(date) => {
+                    let myDate = moment(date).format("YYYY-MM-DD").toString();
+                    setEditStartDate(myDate);
+                    console.log(myDate)
+                  }}
                   customInput={<ExampleCustomInput />}
                 />
               </div>
             </div>
             <div className="col-6">
               <label for="inputAddress" className="form-label mt-3 ml-3">
-                วันจบภาคเรียน
+                ต้องการปิดห้องเรียน
               </label>
-              <div className="col-5 d-flex ml-3">
+              <div className="col-5 d-flex ml-5">
                 <DatePicker
-                  selected={selectedDate}
-                  onChange={(date) => setSelectedDate(date)}
+                  selected={editEndDate}
+                  onChange={(date) => {
+                    let myDate = moment(date).format("YYYY-MM-DD").toString();
+                    setEditEndDate(myDate)
+                    console.log(myDate)
+                  }}
                   customInput={<ExampleCustomInput />}
                 />
               </div>

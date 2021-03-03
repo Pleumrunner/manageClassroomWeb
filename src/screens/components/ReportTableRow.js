@@ -21,10 +21,10 @@ const ReportTableRow = ({ t, idex, ...props }) => {
       var strLateTime = lateTime.options[lateTime.selectedIndex].text;
 
       var strAbsentTime = absentTime.options[absentTime.selectedIndex].text;
-      if (strAbsentTime == "ขาด") {
+      if (strAbsentTime == "ไม่ระบุ") {
         strAbsentTime = null;
       }
-      if (strLateTime == "สาย") {
+      if (strLateTime == "ไม่ระบุ") {
         strLateTime = null;
       }
       console.log(`late: ${strLateTime} absent: ${strAbsentTime}`);
@@ -67,7 +67,7 @@ const ReportTableRow = ({ t, idex, ...props }) => {
             onChange={(evt) => setLateTime(evt.target.value)}
             id={t.classUqID + "-" + "late"}
           >
-            <option selected>สาย</option>
+            <option selected>ไม่ระบุ</option>
             <option value={0}>0</option>
             <option value={15}>15</option>
             <option value={30}>30</option>
@@ -81,7 +81,7 @@ const ReportTableRow = ({ t, idex, ...props }) => {
             onChange={(evt) => setAbsentTime(evt.target.value)}
             id={t.classUqID + "-" + "absent"}
           >
-            <option selected>ขาด</option>
+            <option selected>ไม่ระบุ</option>
             <option value={15}>15</option>
             <option value={30}>30</option>
             <option value={45}>45</option>
