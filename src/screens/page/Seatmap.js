@@ -2,8 +2,9 @@ import React from "react";
 import { useState, useEffect } from "react";
 import * as HiIcons from "react-icons/hi";
 import * as MdIcons from "react-icons/md";
-import ReactFlow from "react-flow-renderer";
+import firebase from "../../config/firebaseConfig";
 
+const db = firebase.firestore();
 const url = require("../components/urlConfig");
 
 function Seatmap(props) {
@@ -12,6 +13,16 @@ function Seatmap(props) {
   const [seatmapClassState, setSeatmapClassState] = useState({});
   const [seatMaps, setSeapMaps] = useState([]);
   const [profileModal, setProfileModal] = useState("");
+
+  useEffect(() => {
+    db.collection("Students")
+      .get()
+      .then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          console.log(`${doc.id} => ${doc.data()}`);
+        });
+      });
+  }, []);
 
   useEffect(() => {
     var teacherID = localStorage.getItem("teacherID");
@@ -29,7 +40,7 @@ function Seatmap(props) {
         teacherIDState,
         props.location.state.detailClass,
         props.location.state.selectedDate
-      )
+      );
     };
 
     if (teacherIDState != null) fetchSeatmap();
