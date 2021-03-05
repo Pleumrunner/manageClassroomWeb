@@ -1233,14 +1233,6 @@
     "@firebase/util" "0.3.2"
     tslib "^1.11.1"
 
-"@firebase/component@0.2.0":
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/@firebase/component/-/component-0.2.0.tgz#9d48327b3377b84ef22266ec6ab13416ea174c0a"
-  integrity sha512-QJJxMEzLRMWjujPBrrS32BScg1wmdY/dZWR8nAEzyC8WKQsNevYR9ZKLbBYxaN0umH9yf5C40kwmy+gI8jStPw==
-  dependencies:
-    "@firebase/util" "0.3.4"
-    tslib "^1.11.1"
-
 "@firebase/database-types@0.5.2":
   version "0.5.2"
   resolved "https://registry.yarnpkg.com/@firebase/database-types/-/database-types-0.5.2.tgz#23bec8477f84f519727f165c687761e29958b63c"
@@ -1266,11 +1258,6 @@
   resolved "https://registry.yarnpkg.com/@firebase/firestore-types/-/firestore-types-1.13.0.tgz#4ab9c40e1e66e8193a929460d64507acd07d9230"
   integrity sha512-QF5CAuYOHE6Zbsn1uEg6wkl836iP+i6C0C/Zs3kF60eebxZvTWp8JSZk19Ar+jj4w+ye8/7H5olu5CqDNjWpEA==
 
-"@firebase/firestore-types@2.1.0":
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/@firebase/firestore-types/-/firestore-types-2.1.0.tgz#ad406c6fd7f0eae7ea52979f712daa0166aef665"
-  integrity sha512-jietErBWihMvJkqqEquQy5GgoEwzHnMXXC/TsVoe9FPysXm1/AeJS12taS7ZYvenAtyvL/AEJyKrRKRh4adcJQ==
-
 "@firebase/firestore@1.17.0":
   version "1.17.0"
   resolved "https://registry.yarnpkg.com/@firebase/firestore/-/firestore-1.17.0.tgz#f452b6387749d74a66173c74654fdf915a1241d4"
@@ -1281,21 +1268,6 @@
     "@firebase/logger" "0.2.6"
     "@firebase/util" "0.3.2"
     "@firebase/webchannel-wrapper" "0.3.0"
-    "@grpc/grpc-js" "^1.0.0"
-    "@grpc/proto-loader" "^0.5.0"
-    node-fetch "2.6.1"
-    tslib "^1.11.1"
-
-"@firebase/firestore@^2.1.7":
-  version "2.1.7"
-  resolved "https://registry.yarnpkg.com/@firebase/firestore/-/firestore-2.1.7.tgz#039d1d469bd14d89a2d091ec7887a92cc7ab11a7"
-  integrity sha512-sh+aX6udS8a+rwmlJO4zJwvoMC1D2x1CiPvj0nFYWhILRKWvztk/bOA3lT2FWcHY4kr/7x+CnqfwtiOSaufdNQ==
-  dependencies:
-    "@firebase/component" "0.2.0"
-    "@firebase/firestore-types" "2.1.0"
-    "@firebase/logger" "0.2.6"
-    "@firebase/util" "0.3.4"
-    "@firebase/webchannel-wrapper" "0.4.1"
     "@grpc/grpc-js" "^1.0.0"
     "@grpc/proto-loader" "^0.5.0"
     node-fetch "2.6.1"
@@ -1420,22 +1392,10 @@
   dependencies:
     tslib "^1.11.1"
 
-"@firebase/util@0.3.4":
-  version "0.3.4"
-  resolved "https://registry.yarnpkg.com/@firebase/util/-/util-0.3.4.tgz#e389d0e0e2aac88a5235b06ba9431db999d4892b"
-  integrity sha512-VwjJUE2Vgr2UMfH63ZtIX9Hd7x+6gayi6RUXaTqEYxSbf/JmehLmAEYSuxS/NckfzAXWeGnKclvnXVibDgpjQQ==
-  dependencies:
-    tslib "^1.11.1"
-
 "@firebase/webchannel-wrapper@0.3.0":
   version "0.3.0"
   resolved "https://registry.yarnpkg.com/@firebase/webchannel-wrapper/-/webchannel-wrapper-0.3.0.tgz#d1689566b94c25423d1fb2cb031c5c2ea4c9f939"
   integrity sha512-VniCGPIgSGNEgOkh5phb3iKmSGIzcwrccy3IomMFRWPCMiCk2y98UQNJEoDs1yIHtZMstVjYWKYxnunIGzC5UQ==
-
-"@firebase/webchannel-wrapper@0.4.1":
-  version "0.4.1"
-  resolved "https://registry.yarnpkg.com/@firebase/webchannel-wrapper/-/webchannel-wrapper-0.4.1.tgz#600f2275ff54739ad5ac0102f1467b8963cd5f71"
-  integrity sha512-0yPjzuzGMkW1GkrC8yWsiN7vt1OzkMIi9HgxRmKREZl2wnNPOKo/yScTjXf/O57HM8dltqxPF6jlNLFVtc2qdw==
 
 "@grpc/grpc-js@^1.0.0":
   version "1.1.7"
@@ -1785,11 +1745,6 @@
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/@protobufjs/utf8/-/utf8-1.1.0.tgz#a777360b5b39a1a2e5106f8e858f2fd2d060c570"
   integrity sha1-p3c2C1s5oaLlEG+OhY8v0tBgxXA=
-
-"@react-native-firebase/firestore@^11.0.0":
-  version "11.0.0"
-  resolved "https://registry.yarnpkg.com/@react-native-firebase/firestore/-/firestore-11.0.0.tgz#5e609076a03f3ec231f46c464f5761259ee425e3"
-  integrity sha512-wj7ZPYhZdScWYEn5ctCkvrxPYmsgLcvHNykuYmAGBNr6ZSCXhDC1Ccv2DQ9WNaY3fdSYl52Fqck3sgl5orGVXg==
 
 "@react-navigation/core@^5.14.4":
   version "5.14.4"
