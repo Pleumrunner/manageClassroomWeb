@@ -30,12 +30,14 @@ class App extends React.Component {
       }),
     })
       .then((response) => response.json())
-      .then((data) => {
+      .then(async (data) => {
+        console.log(data);
         this.setState({
           studentStat: data.myStudentReport,
           dateList: data.classCheckedDateList,
           classDetail: data.classDetail,
         });
+        await this._exporter.save();
       })
       .catch((error) => {
         console.error(error);
@@ -54,10 +56,10 @@ class App extends React.Component {
       .then(async (res) => {
         this.fetchClassReport(res);
         console.log(res);
-        this._exporter.save();
       })
       .catch((err) => {});
   };
+
 
   render() {
     return (
@@ -70,6 +72,7 @@ class App extends React.Component {
           สร้างรายงาน Excel
         </button>
 
+        {/* <div>{JSON.stringify(this.state.studentStat)}</div> */}
         <ExcelExport
           data={this.state.studentStat}
           fileName="Products.xlsx"
@@ -114,13 +117,34 @@ class App extends React.Component {
                 textAlign: "center",
               }}
             >
-              {this.state.dateList.map((field) => (
+              {
+                this.state.dateList.length == 1 ?
                 <ExcelExportColumn
-                  field={field}
+                  field={this.state.dateList[0]}
+                  // locked={this.state.dateList[0] === "studentID"}
+                  width={100}
+                />
+                :
+                this.state.dateList.map((field, idx) => (
+                  <ExcelExportColumn
+                    key={idx}
+                    field={field}
+                    locked={field === "studentID"}
+                    width={100}
+                  />
+                ))
+
+              }
+              
+              {/* {this.state.dateList.map((field, idx) => console.log(field))} */}
+              {/* {this.state.dateList.map((field, idx) => (
+                <ExcelExportColumn
+                  key={idx}
+                  field={'field'}
                   locked={field === "studentID"}
                   width={100}
                 />
-              ))}
+              ))} */}
             </ExcelExportColumnGroup>
             <ExcelExportColumn
               title="Present"

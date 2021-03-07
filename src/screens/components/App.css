@@ -118,7 +118,7 @@ body{
   border-radius: 15px;
   font-size: 16px;
   border: none;
-  width: 300px;
+  width: 400px;
   padding: 20px;
   margin-bottom: 20px;
 }
@@ -137,6 +137,10 @@ body{
   background-color: #3a045a;
   overflow-x: hidden;
   padding-top: 20px;
+}
+
+.font_bold{
+  font-weight: bold;
 }
 
 .box_s {

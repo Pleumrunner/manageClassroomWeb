@@ -305,6 +305,7 @@ function Attandents(props) {
                   <VictoryBar
                     data={attClassState.statEachDate}
                     x="date"
+                    // x={moment().format("dd/MM/yyyy").toString()
                     y="present"
                     labels={({ datum }) => (datum.present ? datum.present : "")}
                     style={{ labels: { fill: "white" } }}
@@ -312,6 +313,7 @@ function Attandents(props) {
                   <VictoryBar
                     data={attClassState.statEachDate}
                     x="date"
+                    // x={moment().format("dd/MM/yyyy").toString()}
                     y="absent"
                     labels={({ datum }) => (datum.absent ? datum.absent : "")}
                     style={{ labels: { fill: "white" } }}
@@ -395,7 +397,7 @@ function Attandents(props) {
                     <input
                       type="text"
                       className="form-control"
-                      placeholder="Student ID"
+                      placeholder="รหัสนักศึกษา"
                       aria-label="Student ID"
                       onChange={(evt) => onChangeTextStudentID(evt)}
                     ></input>
@@ -404,7 +406,7 @@ function Attandents(props) {
                     <input
                       type="text"
                       className="form-control"
-                      placeholder="Name"
+                      placeholder="ชื่อ - นามสกุล"
                       aria-label="Name"
                       onChange={(evt) => onChangeTextStudentName(evt)}
                     ></input>
@@ -548,8 +550,8 @@ function Attandents(props) {
               <div className="att_pei">
                 <VictoryPie
                   data={[
-                    { x: "present", y: studentStatChart.present },
-                    { x: "absent", y: studentStatChart.absent },
+                    { x: "เข้าเรียน", y: studentStatChart.present },
+                    { x: "ขาด", y: studentStatChart.absent },
                   ]}
                   width={300}
                   colorScale={["green", "red"]}

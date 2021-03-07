@@ -5,6 +5,7 @@ import * as MdIcons from "react-icons/md";
 import firebase from "../../config/firebaseConfig";
 
 const db = firebase.firestore();
+const myStorage = firebase.storage();
 const url = require("../components/urlConfig");
 
 function Seatmap(props) {
@@ -14,15 +15,15 @@ function Seatmap(props) {
   const [seatMaps, setSeapMaps] = useState([]);
   const [profileModal, setProfileModal] = useState("");
 
-  useEffect(() => {
-    db.collection("Students")
-      .get()
-      .then((querySnapshot) => {
-        querySnapshot.forEach((doc) => {
-          console.log(`${doc.id} => ${doc.data()}`);
-        });
-      });
-  }, []);
+  // useEffect(() => {
+  //   db.collection("Students")
+  //     .get()
+  //     .then((querySnapshot) => {
+  //       querySnapshot.forEach((doc) => {
+  //         console.log(`${doc.id} => ${doc.data()}`);
+  //       });
+  //     });
+  // }, []);
 
   useEffect(() => {
     var teacherID = localStorage.getItem("teacherID");
@@ -46,17 +47,6 @@ function Seatmap(props) {
     if (teacherIDState != null) fetchSeatmap();
   }, [teacherIDState]);
 
-  const subject = [
-    {
-      id: "261457",
-      name: "Digital & image",
-      time: "18 Tue 18:00-19:30",
-      room: "512",
-      present: "16",
-      absent: "4",
-    },
-  ];
-
   const seatmapClassAPI = async (teacherID, uqID, date) => {
     await fetch(url.endpointWebApp + "/getSeatmap", {
       method: "POST",
@@ -72,10 +62,20 @@ function Seatmap(props) {
     })
       .then((response) => response.json())
       .then((data) => {
-        let mySeatmaps = get2DArrayGraphs(data);
-        console.log(mySeatmaps);
-        console.log(data);
         setSeatmapClassState(data);
+
+        let mySeatmaps = get2DArrayGraphs(data);
+        mySeatmaps.sort((a, b) => {
+          return b.sumMax - a.sumMax;
+        });
+        mySeatmaps.forEach((element, idx) => {
+          const graphKey = Object.keys(element)[0];
+          element[`graph${idx}`] = element[graphKey];
+          if (graphKey != `graph${idx}`) {
+            delete element[graphKey];
+          }
+        });
+        console.log(mySeatmaps);
         setSeapMaps(mySeatmaps);
       })
       .catch((error) => {
@@ -107,36 +107,43 @@ function Seatmap(props) {
   };
 
   const seatMapFetch = async (studentName) => {
-    setProfileModal({
-      studentID: "600610751",
-      studentName: "ปวริศ",
-      studentPhoto:
-        "https://www.flaticon.com/svg/vstatic/svg/2922/2922688.svg?token=exp=1613653932~hmac=585891ff61ed8370ec9498751ae728ac",
-      studentEmail: "basspleumdfr@gmail.com",
-    });
-    // await fetch(url.endpointWebApp + "/getSeatmapData", {
-    //   method: "POST",
-    //   headers: {
-    //     Accept: "application/json",
-    //     "Content-Type": "application/json",
-    //   },
-    //   body: JSON.stringify({
-    //     studentName: studentName,
-    //   }),
-    // })
-    //   .then((response) => response.json())
-    //   .then((data) => {
-    //     console.log(data);
-    //     setProfileModal({
-    //       studentID: "600610751",
-    //       studentName: "ปวริศ",
-    //       studentPhoto: "",
-    //       studentEmail: "basspleumdfr@gmail.com",
-    //     });
-    //   })
-    //   .catch((error) => {
-    //     console.error(error);
-    //   });
+    const stID = studentName;
+    let stUqID = "";
+    let stMail = "";
+    let stPhotoURL = "";
+
+    myStorage
+      .ref(stID)
+      .getDownloadURL()
+      .then(
+        (foundURL) => {
+          console.log(foundURL);
+          stPhotoURL = foundURL;
+        },
+        (error) => {
+          stPhotoURL =
+            "https://reg.mcu.ac.th/wp-content/uploads/2018/02/profileMen-1.png";
+        }
+      )
+      .then(() => {
+        db.collection("Students")
+          .doc(stID)
+          .get()
+          .then((querySnapshot) => {
+            let stData = querySnapshot.data();
+            stUqID = stData.uqID;
+            stMail = stData.mail;
+            if (stMail == undefined) stMail = "ไม่ได้ระบุ";
+          })
+          .then(() => {
+            setProfileModal({
+              studentID: stUqID,
+              studentName: studentName,
+              studentPhoto: stPhotoURL,
+              studentEmail: stMail,
+            });
+          });
+      });
   };
 
   const get2DArrayGraphs = (graphs) => {

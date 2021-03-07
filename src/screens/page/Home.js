@@ -8,6 +8,9 @@ import DatePicker from "react-datepicker";
 import { DateRange } from "react-date-range";
 import "react-date-range/dist/styles.css"; // main css file
 import "react-date-range/dist/theme/default.css"; // theme css file
+import firebase from "../../config/firebaseConfig";
+
+const db = firebase.firestore();
 
 const url = require("../components/urlConfig");
 
@@ -33,10 +36,21 @@ function Home(props) {
   const [editClassUqId, setEditClassUqId] = useState(null);
   const [editStartDate, setEditStartDate] = useState(new Date());
   const [editEndDate, setEditEndDate] = useState(new Date());
+  const [editMon, setEditMon] = useState(false);
+  const [editTue, setEditTue] = useState(false);
+  const [editWed, setEditWed] = useState(false);
+  const [editThu, setEditThu] = useState(false);
+  const [editFri, setEditFri] = useState(false);
+  const [editSat, setEditSat] = useState(false);
+  const [editSun, setEditSun] = useState(false);
   const [selectClassCurrentDate, setSelectClassCurrentDate] = useState(null);
 
   const [teacherIDState, setTeacherIDState] = useState(null);
   const [selectedDate, setSelectedDate] = useState(new Date());
+
+  const [editClassStartDate, setEditClassStartDate] = useState(null);
+  const [editClassEndDate, setEditClassEndDate] = useState(null);
+  const [editClassDupDay, setEditClassDupDay] = useState(null);
 
   const ExampleCustomInput = ({ value, onClick }) => (
     <button className="bt btn" onClick={onClick}>
@@ -61,6 +75,34 @@ function Home(props) {
     transformHeader: (header) => header.toLowerCase().replace(/\W/g, "_"),
   };
 
+  // useEffect(() => {
+  //   if (teacherIDState != null && selectedDate != null) {
+  //     var mySessionData = [];
+  //     const subscriber = db
+  //       .collection("Classroom")
+  //       .doc(teacherIDState)
+  //       .collection("sessions")
+  //       .onSnapshot((querySnapshot) => {
+  //         // console.log("Total users: ", querySnapshot.size);
+
+  //         querySnapshot.forEach((classData) => {
+  //           // console.log(classData.id, classData.data());
+  //           const myClassData = classData.data();
+  //           const regisDateList = myClassData.registeredDay;
+  //           if (regisDateList.includes(moment(selectedDate).format("YYYY-MM-DD").toString())) {
+  //             // console.log(myClassData);
+  //             mySessionData.push(myClassData);
+  //           }
+  //         });
+  //         console.log(mySessionData);
+  //         setSessionsData(mySessionData);
+  //       });
+
+  //     // Stop listening for updates when no longer required
+  //     return () => subscriber();
+  //   }
+  // }, [selectedDate, teacherIDState]);
+
   useEffect(() => {
     const interval = setInterval(() => {
       setcurrentDate(moment(new Date()).format("YYYY-MM-DD").toString());
@@ -79,6 +121,19 @@ function Home(props) {
 
     if (teacherIDState != null) fetchClassAPI();
   }, [selectedDate, teacherIDState]);
+
+  // useEffect(() => {
+  //   // if(sessionsData.length != 0){
+  //   // setEditSun(sessionsData.duplicatedDay[0])
+  //   // setEditMon(sessionsData.duplicatedDay[1])
+  //   // setEditTue(sessionsData.duplicatedDay[2])
+  //   // setEditWed(sessionsData.duplicatedDay[3])
+  //   // setEditThu(sessionsData.duplicatedDay[4])
+  //   // setEditFri(sessionsData.duplicatedDay[5])
+  //   // setEditSat(sessionsData.duplicatedDay[6])
+  //   // }
+  //   console.log(sessionsData);
+  // }, [sessionsData]);
 
   const onChangeTextClassID = (event) => {
     setEditClassId(event.target.value);
@@ -153,6 +208,25 @@ function Home(props) {
   };
 
   const editClassDetail = async () => {
+    console.log(
+      editClassId,
+      editClassName,
+      editClassStartTime,
+      editClassEndTime,
+      editClassDesc,
+      editClassSemester,
+      editStartDate,
+      editEndDate
+    );
+    console.log(editClassUqId, teacherIDState, [
+      editSun,
+      editMon,
+      editThu,
+      editWed,
+      editThu,
+      editFri,
+      editSat,
+    ]);
     await fetch(url.endpointWebApp + "/editClassDetail", {
       method: "POST",
       headers: {
@@ -166,8 +240,17 @@ function Home(props) {
         editClassEndTime: editClassEndTime,
         editClassDesc: editClassDesc,
         editClassSemester: editClassSemester,
-        editStartDate: editStartDate,
-        editEndDate: editEndDate,
+        editStartDate: moment(editStartDate).format("YYYY-MM-DD").toString(),
+        editEndDate: moment(editEndDate).format("YYYY-MM-DD").toString(),
+        editDupDay: [
+          editSun,
+          editMon,
+          editThu,
+          editWed,
+          editThu,
+          editFri,
+          editSat,
+        ],
         ClassUqId: editClassUqId,
         ClassTeacherId: teacherIDState,
       }),
@@ -188,6 +271,7 @@ function Home(props) {
           <h3 className="head_text">รายวิชาที่เปิดสอน</h3>
           <div className="col-5 d-flex mt-3">
             <DatePicker
+              dateFormat="dd/MM/yyyy"
               selected={selectedDate}
               onChange={(date) => setSelectedDate(date)}
               customInput={<ExampleCustomInput />}
@@ -272,23 +356,37 @@ function Home(props) {
                           แผนผังที่นั่ง
                         </button>
                       ) : null}
-                      <button
-                        type="button"
-                        className="btn btn-info mx-1"
-                        data-toggle="modal"
-                        data-target="#editModal"
-                        onClick={() => {
-                          setEditClassId(t.id);
-                          setEditClassName(t.name);
-                          setEditClassDesc(t.desc);
-                          setEditClassStartTime(t.startTime);
-                          setEditClassEndTime(t.endTime);
-                          setEditClassSemester(t.semester);
-                          setEditClassUqId(t.uqID);
-                        }}
-                      >
-                        แก้ไขข้อมูลห้อง
-                      </button>
+                      {t.sessionStatus === -99 ? (
+                        <button
+                          type="button"
+                          className="btn btn-info mx-1"
+                          data-toggle="modal"
+                          data-target="#editModal"
+                          onClick={() => {
+                            setEditClassId(t.id);
+                            setEditClassName(t.name);
+                            setEditClassDesc(t.desc);
+                            setEditClassStartTime(t.startTime);
+                            setEditClassEndTime(t.endTime);
+                            setEditClassSemester(t.semester);
+                            setEditClassUqId(t.uqID);
+                            const dup = t.duplicatedDay;
+                            setEditSun(dup[0]);
+                            setEditMon(dup[1]);
+                            setEditTue(dup[2]);
+                            setEditWed(dup[3]);
+                            setEditThu(dup[4]);
+                            setEditFri(dup[5]);
+                            setEditSat(dup[6]);
+                            setEditStartDate(new Date(t.startDate));
+                            setEditEndDate(new Date(t.endDate));
+                          }}
+                        >
+                          แก้ไขข้อมูลห้อง
+                        </button>
+                      ) : (
+                        <></>
+                      )}
                       <button
                         type="button"
                         className="btn btn-danger mx-1"
@@ -344,42 +442,141 @@ function Home(props) {
             <div className="modal-header">
               <h5 className="modal-title head_text">แก้ไขข้อมูลห้อง</h5>
             </div>
-            <div className="col-6">
-              <label for="inputAddress" className="form-label mt-3 ml-3">
-                ต้องการเปิดห้องเรียน
-              </label>
-              <div className="col-5 d-flex ml-5">
-                <DatePicker
-                  selected={editStartDate}
-                  onChange={(date) => {
-                    let myDate = moment(date).format("YYYY-MM-DD").toString();
-                    setEditStartDate(myDate);
-                    console.log(myDate)
-                  }}
-                  customInput={<ExampleCustomInput />}
-                />
+            <div className="row g-3">
+              <div className="col-5">
+                <label for="inputAddress" className="form-label mt-3 ml-3 font_bold">
+                  วันที่เริ่มต้น
+                </label>
+                <div className="col-5 d-flex ml-5">
+                  <DatePicker
+                    dateFormat="dd/MM/yyyy"
+                    selected={editStartDate}
+                    onChange={(date) => {
+                      let myDate = moment(date).format("YYYY-MM-DD").toString();
+                      setEditStartDate(new Date(myDate));
+                      console.log(myDate);
+                    }}
+                    customInput={<ExampleCustomInput />}
+                  />
+                </div>
+              </div>
+              <div className="col-6">
+                <label for="inputAddress" className="form-label mt-3 font_bold">
+                  วันที่สิ้นสุด
+                </label>
+                <div className="col-5 d-flex ml-5">
+                  <DatePicker
+                    dateFormat="dd/MM/yyyy"
+                    selected={editEndDate}
+                    onChange={(date) => {
+                      let myDate = moment(date).format("YYYY-MM-DD").toString();
+                      setEditEndDate(new Date(myDate));
+                      console.log(myDate);
+                    }}
+                    customInput={<ExampleCustomInput />}
+                  />
+                </div>
               </div>
             </div>
-            <div className="col-6">
-              <label for="inputAddress" className="form-label mt-3 ml-3">
-                ต้องการปิดห้องเรียน
-              </label>
-              <div className="col-5 d-flex ml-5">
-                <DatePicker
-                  selected={editEndDate}
-                  onChange={(date) => {
-                    let myDate = moment(date).format("YYYY-MM-DD").toString();
-                    setEditEndDate(myDate)
-                    console.log(myDate)
-                  }}
-                  customInput={<ExampleCustomInput />}
-                />
+            <label for="inputAddress" className="form-label mt-3 ml-3 font_bold">
+              ทำซ้ำวัน
+            </label>
+            <div className="row g-3 ml-5">
+              <div className="form-check m-3 col-4">
+                <input
+                  className="form-check-input"
+                  type="checkbox"
+                  checked={editMon}
+                  onChange={(e) => setEditMon(e.target.checked)}
+                  id="flexCheckMon"
+                ></input>
+                <label className="form-check-label" for="flexCheckMon">
+                  วันจันทร์
+                </label>
+              </div>
+              <div className="form-check m-3 col-4">
+                <input
+                  className="form-check-input"
+                  type="checkbox"
+                  checked={editFri}
+                  onChange={(e) => setEditFri(e.target.checked)}
+                  id="flexCheckFri"
+                ></input>
+                <label className="form-check-label" for="flexCheckFri">
+                  วันศุกร์
+                </label>
+              </div>
+            </div>
+            <div className="row g-3 ml-5">
+              <div className="form-check m-3 col-4">
+                <input
+                  className="form-check-input"
+                  type="checkbox"
+                  checked={editTue}
+                  onChange={(e) => setEditTue(e.target.checked)}
+                  id="flexCheckTue"
+                ></input>
+                <label className="form-check-label" for="flexCheckTue">
+                  วันอังคาร
+                </label>
+              </div>
+              <div className="form-check m-3 col-4">
+                <input
+                  className="form-check-input"
+                  type="checkbox"
+                  checked={editSat}
+                  onChange={(e) => setEditSat(e.target.checked)}
+                  id="flexCheckSat"
+                ></input>
+                <label className="form-check-label" for="flexCheckSat">
+                  วันเสาร์
+                </label>
+              </div>
+            </div>
+            <div className="row g-3 ml-5">
+              <div className="form-check m-3 col-4">
+                <input
+                  className="form-check-input"
+                  type="checkbox"
+                  checked={editWed}
+                  onChange={(e) => setEditWed(e.target.checked)}
+                  id="flexCheckWed"
+                ></input>
+                <label className="form-check-label" for="flexCheckWed">
+                  วันพุธ
+                </label>
+              </div>
+              <div className="form-check m-3 col-4">
+                <input
+                  className="form-check-input"
+                  type="checkbox"
+                  checked={editSun}
+                  onChange={(e) => setEditSun(e.target.checked)}
+                  id="flexCheckSun"
+                ></input>
+                <label className="form-check-label" for="flexCheckSun">
+                  วันอาทิตย์
+                </label>
+              </div>
+            </div>
+            <div className="row g-3 ml-5">
+              <div className="form-check m-3 col-4">
+                <input
+                  className="form-check-input"
+                  type="checkbox"
+                  checked={editThu}
+                  onChange={(e) => setEditThu(e.target.checked)}
+                  id="flexCheckThu"
+                ></input>
+                <label className="form-check-label" for="flexCheckThu">
+                  วันพฤหัสบดี
+                </label>
               </div>
             </div>
             <div className="container mt-3">
               <form className="row g-3">
                 <div className="col-6">
-                  <label for="inputAddress" className="form-label">
+                  <label for="inputAddress" className="form-label font_bold">
                     รหัสวิชา
                   </label>
                   <input
@@ -391,7 +588,7 @@ function Home(props) {
                   ></input>
                 </div>
                 <div className="col-6">
-                  <label for="inputAddress" className="form-label">
+                  <label for="inputAddress" className="form-label font_bold">
                     ชื่อวิชา
                   </label>
                   <input
@@ -403,7 +600,7 @@ function Home(props) {
                   ></input>
                 </div>
                 <div className="col-6">
-                  <label for="inputAddress" className="form-label">
+                  <label for="inputAddress" className="form-label font_bold">
                     เวลาเรียน
                   </label>
                   <input
@@ -415,7 +612,7 @@ function Home(props) {
                   ></input>
                 </div>
                 <div className="col-6">
-                  <label for="inputAddress" className="form-label">
+                  <label for="inputAddress" className="form-label font_bold">
                     เวลาเลิกเรียน
                   </label>
                   <input
@@ -427,7 +624,7 @@ function Home(props) {
                   ></input>
                 </div>
                 <div className="col-6">
-                  <label for="inputAddress" className="form-label">
+                  <label for="inputAddress" className="form-label font_bold">
                     ห้องเรียน
                   </label>
                   <input
@@ -439,7 +636,7 @@ function Home(props) {
                   ></input>
                 </div>
                 <div className="col-6">
-                  <label for="inputAddress" className="form-label">
+                  <label for="inputAddress" className="form-label font_bold">
                     ภาคการศึกษา
                   </label>
                   <input
