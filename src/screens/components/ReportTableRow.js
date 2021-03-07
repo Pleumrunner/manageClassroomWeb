@@ -18,9 +18,8 @@ const ReportTableRow = ({ t, idex, ...props }) => {
       var lateTime = document.getElementById(t.classUqID + "-" + "late");
       var absentTime = document.getElementById(t.classUqID + "-" + "absent");
 
-      var strLateTime = lateTime.options[lateTime.selectedIndex].text;
-
-      var strAbsentTime = absentTime.options[absentTime.selectedIndex].text;
+      var strLateTime = lateTime.options[lateTime.selectedIndex].value;
+      var strAbsentTime = absentTime.options[absentTime.selectedIndex].value;
       if (strAbsentTime == "ไม่ระบุ") {
         strAbsentTime = null;
       }
@@ -62,30 +61,29 @@ const ReportTableRow = ({ t, idex, ...props }) => {
         <td>{t.classDesc}</td>
         <td className="col-1">
           <select
-            className="select-report"
+            className="select-report select_size"
             aria-label="Default select example"
             onChange={(evt) => setLateTime(evt.target.value)}
             id={t.classUqID + "-" + "late"}
           >
             <option selected>ไม่ระบุ</option>
-            <option value={0}>0</option>
-            <option value={15}>15</option>
-            <option value={30}>30</option>
-            <option value={45}>45</option>
+            <option value={15}>15 นาที</option>
+            <option value={30}>30 นาที</option>
+            <option value={45}>45 นาที</option>
           </select>
         </td>
         <td className="col-1">
           <select
-            className="select-report"
+            className="select-report select_size"
             aria-label="Default select example"
             onChange={(evt) => setAbsentTime(evt.target.value)}
             id={t.classUqID + "-" + "absent"}
           >
             <option selected>ไม่ระบุ</option>
-            <option value={15}>15</option>
-            <option value={30}>30</option>
-            <option value={45}>45</option>
-            <option value={59}>60</option>
+            <option value={15}>15 นาที</option>
+            <option value={30}>30 นาที</option>
+            <option value={45}>45 นาที</option>
+            <option value={59}>60 นาที</option>
           </select>
         </td>
         <div>

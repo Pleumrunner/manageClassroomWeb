@@ -45,8 +45,8 @@ function Reports(props) {
     "ชื่อวิชา",
     "เวลาเรียน",
     "ห้องเรียน",
-    "สาย",
-    "ขาด",
+    "เวลาสาย",
+    "เวลาขาด",
     "ออกเอกสาร",
   ];
 
@@ -76,44 +76,6 @@ function Reports(props) {
     setSemester(event.target.value);
   };
 
-  function handleSelectRowClick(e , t){
-    var lateTime = document.getElementById(
-      t.classUqID + "-" + "late"
-    );
-    var absentTime = document.getElementById(
-      t.classUqID + "-" + "absent"
-    );
-
-    var strLateTime =
-      lateTime.options[lateTime.selectedIndex].text;
-
-    var strAbsentTime =
-      absentTime.options[absentTime.selectedIndex].text;
-    if (strAbsentTime == "ขาด") {
-      strAbsentTime = null;
-    }
-    if (strLateTime == "สาย") {
-      strLateTime = null;
-    }
-    console.log(
-      `late: ${strLateTime} absent: ${strAbsentTime}`
-    );
-    console.log(
-      t.className,
-      t.classID,
-      t.classStartTime,
-      t.classEndTime,
-      t.classDesc
-    );
-
-    setSelectedRowData({
-      uqID: t.classUqID,
-      late: strLateTime,
-      absent: strAbsentTime,
-      teacherID: teacherIDState,
-    });
-    setIsReportCreate(true);
-  }
 
   return (
     <div className="container-fluid pt-4 ">

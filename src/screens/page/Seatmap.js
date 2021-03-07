@@ -8,6 +8,8 @@ const db = firebase.firestore();
 const myStorage = firebase.storage();
 const url = require("../components/urlConfig");
 
+const moment = require("moment");
+
 function Seatmap(props) {
   const [value, onChange] = useState(new Date());
   const [teacherIDState, setTeacherIDState] = useState(null);
@@ -203,7 +205,13 @@ function Seatmap(props) {
                   <th className="p-1">รหัสวิชา: {seatmapClassState.id}</th>
                 </tr>
                 <tr>
-                  {seatmapClassState.startTime} - {seatmapClassState.endTime}
+                  <th>
+                    เวลา: {seatmapClassState.startTime} -{" "}
+                    {seatmapClassState.endTime}
+                  </th>
+                </tr>
+                <tr>
+                  <th> วันที่: {moment(seatmapClassState.currentDate).format("DD/MM/YYYY").toString()}</th>
                 </tr>
                 <tr>
                   room: {seatmapClassState.desc}

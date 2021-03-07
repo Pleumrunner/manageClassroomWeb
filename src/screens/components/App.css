@@ -143,6 +143,10 @@ body{
   font-weight: bold;
 }
 
+.select_size{
+  width: 70px;
+}
+
 .box_s {
   background-color: #9E76B4;
   box-shadow: 1px 1px 5px #86858b;

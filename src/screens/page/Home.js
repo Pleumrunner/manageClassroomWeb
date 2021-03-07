@@ -160,6 +160,29 @@ function Home(props) {
     console.log(event.target.value);
   };
 
+  const removeClassAllDate = async (teacherID, uqClassID) => {
+    console.log(teacherID, uqClassID);
+
+    await fetch(url.endpointWebApp + "/removeClassAllDate", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        uqID: uqClassID,
+        teacherID: teacherID,
+      }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
   const removeClassByDate = async (uqID, date) => {
     await fetch(url.endpointWebApp + "/cancelSession", {
       method: "POST",
@@ -403,7 +426,25 @@ function Home(props) {
                           setSelectClassCurrentDate(t.currentDate);
                         }}
                       >
-                        ลบห้องเช็คชื่อ
+                        ยกเลิกห้องเช็คชื่อวันนี้
+                      </button>
+                      <button
+                        type="button"
+                        className="btn btn-danger mx-1"
+                        data-toggle="modal"
+                        data-target="#removeClassAll"
+                        onClick={async () => {
+                          setEditClassId(t.id);
+                          setEditClassName(t.name);
+                          setEditClassDesc(t.desc);
+                          setEditClassStartTime(t.startTime);
+                          setEditClassEndTime(t.endTime);
+                          setEditClassSemester(t.semester);
+                          setEditClassUqId(t.uqID);
+                          setSelectClassCurrentDate(t.currentDate);
+                        }}
+                      >
+                        ยกเลิกห้องเช็คชื่อทั้งหมด
                       </button>
                     </td>
                   </tr>
@@ -444,7 +485,10 @@ function Home(props) {
             </div>
             <div className="row g-3">
               <div className="col-5">
-                <label for="inputAddress" className="form-label mt-3 ml-3 font_bold">
+                <label
+                  for="inputAddress"
+                  className="form-label mt-3 ml-3 font_bold"
+                >
                   วันที่เริ่มต้น
                 </label>
                 <div className="col-5 d-flex ml-5">
@@ -478,7 +522,10 @@ function Home(props) {
                 </div>
               </div>
             </div>
-            <label for="inputAddress" className="form-label mt-3 ml-3 font_bold">
+            <label
+              for="inputAddress"
+              className="form-label mt-3 ml-3 font_bold"
+            >
               ทำซ้ำวัน
             </label>
             <div className="row g-3 ml-5">
@@ -669,7 +716,9 @@ function Home(props) {
         <div className="modal-dialog">
           <div className="modal-content">
             <div className="modal-header">
-              <h5 className="modal-title head_text">ยืนยันที่จะลบห้องเรียน</h5>
+              <h5 className="modal-title head_text">
+                ยืนยันที่จะลบห้องเรียนวันที่ {moment( selectClassCurrentDate).format('DD/MM/YYYY')}
+              </h5>
             </div>
             <div className="box mt-3">
               <h6>รหัสวิชา: {editClassId}</h6>
@@ -689,6 +738,44 @@ function Home(props) {
                   await removeClassByDate(
                     editClassUqId,
                     selectClassCurrentDate
+                  );
+                  await fetchClassAPI();
+                }}
+              >
+                ยืนยัน
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="modal fade" id="removeClassAll">
+        <div className="modal-dialog">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5 className="modal-title head_text">
+                ยืนยันที่จะลบห้องเรียนทั้งหมด
+              </h5>
+            </div>
+            <div className="box mt-3">
+              <h6>รหัสวิชา: {editClassId}</h6>
+              <h6>ชื่อวิชา: {editClassName}</h6>
+              <h6>
+                เวลา: {editClassStartTime} - {editClassEndTime}
+              </h6>
+              <h6>ห้องเรียน: {editClassDesc}</h6>
+              <h6>ภาคการศึกษา: {editClassSemester}</h6>
+            </div>
+            <div className="modal-footer mt-3">
+              <button
+                type="button"
+                className="btn btn-success"
+                data-dismiss="modal"
+                onClick={async () => {
+                  console.log(teacherIDState,
+                    editClassUqId)
+                  await removeClassAllDate(
+                    teacherIDState,
+                    editClassUqId
                   );
                   await fetchClassAPI();
                 }}

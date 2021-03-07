@@ -262,7 +262,17 @@ function Attandents(props) {
                     <th className="p-1">รหัสวิชา: {attClassState.id}</th>
                   </tr>
                   <tr>
-                    เวลา:{attClassState.startTime} - {attClassState.endTime}
+                    <th>
+                      เวลา: {attClassState.startTime} - {attClassState.endTime}
+                    </th>
+                  </tr>
+                  <tr>
+                    <th>
+                      วันที่:{" "}
+                      {moment(attClassState.currentDate)
+                        .format("DD/MM/YYYY")
+                        .toString()}
+                    </th>
                   </tr>
                   <tr>
                     ห้องเรียน: {attClassState.desc}
@@ -279,8 +289,8 @@ function Attandents(props) {
             <div className="att_pei">
               <VictoryPie
                 data={[
-                  { x: "เข้าเรียน", y: attClassState.present },
-                  { x: "ไม่เข้าเรียน", y: attClassState.absent },
+                  { x: `เข้าเรียน ${attClassState.present} คน`, y: attClassState.present },
+                  { x: `ไม่เข้าเรียน ${attClassState.absent} คน`, y: attClassState.absent },
                 ]}
                 width={300}
                 colorScale={["green", "red"]}
@@ -305,7 +315,6 @@ function Attandents(props) {
                   <VictoryBar
                     data={attClassState.statEachDate}
                     x="date"
-                    // x={moment().format("dd/MM/yyyy").toString()
                     y="present"
                     labels={({ datum }) => (datum.present ? datum.present : "")}
                     style={{ labels: { fill: "white" } }}
@@ -313,7 +322,6 @@ function Attandents(props) {
                   <VictoryBar
                     data={attClassState.statEachDate}
                     x="date"
-                    // x={moment().format("dd/MM/yyyy").toString()}
                     y="absent"
                     labels={({ datum }) => (datum.absent ? datum.absent : "")}
                     style={{ labels: { fill: "white" } }}
