@@ -25,8 +25,8 @@ class App extends React.Component {
       body: JSON.stringify({
         teacherID: result.teacherID,
         uqID: result.uqID,
-        lateTime: result.lateTime,
-        absentTime: result.absentTime,
+        lateTime: result.late,
+        absentTime: result.absent,
       }),
     })
       .then((response) => response.json())
@@ -48,8 +48,8 @@ class App extends React.Component {
     console.log(
       this.props.teacherID,
       this.props.uqID,
-      this.props.late,
-      this.props.absent
+      this.props.lateTime,
+      this.props.absentTime
     );
     this.props
       .handleSelectRowClick()
@@ -73,7 +73,7 @@ class App extends React.Component {
         </button>
         <ExcelExport
           data={this.state.studentStat}
-          fileName="Products.xlsx"
+          fileName={this.state.classDetail.sessionName+"_report.xlsx"}
           ref={(exporter) => {
             this._exporter = exporter;
           }}
@@ -134,9 +134,9 @@ class App extends React.Component {
               }
             </ExcelExportColumnGroup>
             <ExcelExportColumn
-              title="Present"
+              title="Present,Late"
               field="present"
-              width={70}
+              width={100}
               headerCellOptions={{
                 textAlign: "center",
               }}
@@ -158,9 +158,9 @@ class App extends React.Component {
               }}
             />
             <ExcelExportColumn
-              title="Percentage"
+              title="Percentage(Present,Late)"
               field="presentPercentage"
-              width={100}
+              width={150}
               headerCellOptions={{
                 textAlign: "center",
               }}
