@@ -48,8 +48,8 @@ class App extends React.Component {
     console.log(
       this.props.teacherID,
       this.props.uqID,
-      this.props.lateTime,
-      this.props.absentTime
+      this.props.late,
+      this.props.absent
     );
     this.props
       .handleSelectRowClick()
@@ -71,8 +71,6 @@ class App extends React.Component {
         >
           สร้างรายงาน Excel
         </button>
-
-        {/* <div>{JSON.stringify(this.state.studentStat)}</div> */}
         <ExcelExport
           data={this.state.studentStat}
           fileName="Products.xlsx"
@@ -121,7 +119,6 @@ class App extends React.Component {
                 this.state.dateList.length == 1 ?
                 <ExcelExportColumn
                   field={this.state.dateList[0]}
-                  // locked={this.state.dateList[0] === "studentID"}
                   width={100}
                 />
                 :
@@ -135,16 +132,6 @@ class App extends React.Component {
                 ))
 
               }
-              
-              {/* {this.state.dateList.map((field, idx) => console.log(field))} */}
-              {/* {this.state.dateList.map((field, idx) => (
-                <ExcelExportColumn
-                  key={idx}
-                  field={'field'}
-                  locked={field === "studentID"}
-                  width={100}
-                />
-              ))} */}
             </ExcelExportColumnGroup>
             <ExcelExportColumn
               title="Present"

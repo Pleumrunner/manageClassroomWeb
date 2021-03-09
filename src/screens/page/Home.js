@@ -63,7 +63,8 @@ function Home(props) {
     "รหัสวิชา",
     "ชื่อวิชา",
     "เวลา",
-    "ห้องเรียน",
+    "รูปแบบการเช็คชื่อ",
+    "รายละเอียด",
     "ภาคการศึกษา",
     "สถานะห้องเรียน",
     "การจัดการ",
@@ -315,8 +316,16 @@ function Home(props) {
                     <td>{t.id}</td>
                     <td>{t.name}</td>
                     <td>
-                      {t.startTime}-{t.endTime}
+                      {t.duplicatedDay[0] == true ? <td>อา.</td> : null}
+                      {t.duplicatedDay[1] == true ? <td>จ.</td> : null}
+                      {t.duplicatedDay[2] == true ? <td>อ.</td> : null}
+                      {t.duplicatedDay[3] == true ? <td>พ.</td> : null}
+                      {t.duplicatedDay[4] == true ? <td>พฤ.</td> : null}
+                      {t.duplicatedDay[5] == true ? <td>ศ.</td> : null}
+                      {t.duplicatedDay[6] == true ? <td>ส.</td> : null}
+                      {t.startTime} - {t.endTime}
                     </td>
+                    <td>{t.isLocationSet == true ? <td>ระบุสถานที่</td> : <td>ออนไลน์</td>}</td>
                     <td>{t.desc}</td>
                     <td>{t.semester}</td>
                     {t.sessionStatus == -1 ? (
@@ -430,7 +439,7 @@ function Home(props) {
                       </button>
                       <button
                         type="button"
-                        className="btn btn-danger mx-1"
+                        className="btn btn-dark mx-1"
                         data-toggle="modal"
                         data-target="#removeClassAll"
                         onClick={async () => {
@@ -717,7 +726,8 @@ function Home(props) {
           <div className="modal-content">
             <div className="modal-header">
               <h5 className="modal-title head_text">
-                ยืนยันที่จะลบห้องเรียนวันที่ {moment( selectClassCurrentDate).format('DD/MM/YYYY')}
+                ยืนยันที่จะลบห้องเรียนวันที่{" "}
+                {moment(selectClassCurrentDate).format("DD/MM/YYYY")}
               </h5>
             </div>
             <div className="box mt-3">
@@ -771,12 +781,8 @@ function Home(props) {
                 className="btn btn-success"
                 data-dismiss="modal"
                 onClick={async () => {
-                  console.log(teacherIDState,
-                    editClassUqId)
-                  await removeClassAllDate(
-                    teacherIDState,
-                    editClassUqId
-                  );
+                  console.log(teacherIDState, editClassUqId);
+                  await removeClassAllDate(teacherIDState, editClassUqId);
                   await fetchClassAPI();
                 }}
               >

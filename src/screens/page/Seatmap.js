@@ -65,7 +65,6 @@ function Seatmap(props) {
       .then((response) => response.json())
       .then((data) => {
         setSeatmapClassState(data);
-
         let mySeatmaps = get2DArrayGraphs(data);
         mySeatmaps.sort((a, b) => {
           return b.sumMax - a.sumMax;
@@ -211,10 +210,16 @@ function Seatmap(props) {
                   </th>
                 </tr>
                 <tr>
-                  <th> วันที่: {moment(seatmapClassState.currentDate).format("DD/MM/YYYY").toString()}</th>
+                  <th>
+                    {" "}
+                    วันที่:{" "}
+                    {moment(seatmapClassState.currentDate)
+                      .format("DD/MM/YYYY")
+                      .toString()}
+                  </th>
                 </tr>
                 <tr>
-                  room: {seatmapClassState.desc}
+                  <th>รายละเอียด: {seatmapClassState.desc}</th>
                   <th className="pl-5">
                     {seatmapClassState.present}
                     <HiIcons.HiUser style={{ color: "green" }} />

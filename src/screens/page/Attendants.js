@@ -29,6 +29,7 @@ function Attandents(props) {
   const [addStudentName, setAddStudentName] = useState(null);
   const [addStudentID, setAddStudentID] = useState(null);
   const [checkList, setCheckList] = useState([]);
+  const [weekDup, setWeekDup] = useState([]);
   const [studentStatChart, setStudentStatChart] = useState({});
 
   useEffect(() => {
@@ -76,6 +77,8 @@ function Attandents(props) {
       .then((data) => {
         console.log(data);
         setAttClassState(data);
+        setWeekDup(data.duplicatedDay);
+        console.log(data.duplicatedDay);
         setAttClassStudent(data.statistics);
       })
       .catch((error) => {
@@ -262,9 +265,42 @@ function Attandents(props) {
                     <th className="p-1">รหัสวิชา: {attClassState.id}</th>
                   </tr>
                   <tr>
-                    <th>
-                      เวลา: {attClassState.startTime} - {attClassState.endTime}
-                    </th>
+                    <tr>
+                      <td>
+                        <th>วัน:</th>
+                        <th>
+                          {weekDup[0] == true ? (
+                            <td className="m-1 p-1">อาทิตย์ </td>
+                          ) : null}
+                          {weekDup[1] == true ? (
+                            <td className="m-1 p-1">จันทร์ </td>
+                          ) : null}
+                          {weekDup[2] == true ? (
+                            <td className="m-1 p-1">อังคาร </td>
+                          ) : null}
+                          {weekDup[3] == true ? (
+                            <td className="m-1 p-1">พุธ </td>
+                          ) : null}
+                          {weekDup[4] == true ? (
+                            <td className="m-1 p-1">พฤหัสบดี </td>
+                          ) : null}
+                          {weekDup[5] == true ? (
+                            <td className="m-1 p-1">ศุกร์ </td>
+                          ) : null}
+                          {weekDup[6] == true ? (
+                            <td className="m-1 p-1">เสาร์ </td>
+                          ) : null}
+                        </th>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <th>
+                          เวลา: {attClassState.startTime} -{" "}
+                          {attClassState.endTime}
+                        </th>
+                      </td>
+                    </tr>
                   </tr>
                   <tr>
                     <th>
@@ -275,7 +311,7 @@ function Attandents(props) {
                     </th>
                   </tr>
                   <tr>
-                    ห้องเรียน: {attClassState.desc}
+                    <th>ห้องเรียน: {attClassState.desc}</th>
                     <th className="pl-5">
                       {attClassState.present}
                       <HiIcons.HiUser style={{ color: "green" }} />
@@ -289,8 +325,14 @@ function Attandents(props) {
             <div className="att_pei">
               <VictoryPie
                 data={[
-                  { x: `เข้าเรียน ${attClassState.present} คน`, y: attClassState.present },
-                  { x: `ไม่เข้าเรียน ${attClassState.absent} คน`, y: attClassState.absent },
+                  {
+                    x: `เข้าเรียน ${attClassState.present} คน`,
+                    y: attClassState.present,
+                  },
+                  {
+                    x: `ไม่เข้าเรียน ${attClassState.absent} คน`,
+                    y: attClassState.absent,
+                  },
                 ]}
                 width={300}
                 colorScale={["green", "red"]}
