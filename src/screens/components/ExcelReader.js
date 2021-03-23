@@ -97,7 +97,7 @@ class ExcelReader extends Component {
   render() {
     return (
       <div>
-        <label htmlFor="file">เพิ่มไฟล์ EXCEL หรือ CSV</label>
+        <label htmlFor="file">เพิ่มไฟล์รายชื่อนักศึกษาที่ได้จากสำนักทะเบียน(Excel)</label>
         <br />
         <input
           type="file"

@@ -615,7 +615,7 @@ function Attandents(props) {
                     {t.date} สถานะ{" "}
                     {t.classStatus == -1 ? (
                       <td>
-                        Waiting
+                        รอเช็คชื่อ
                         <BsIcons.BsStopwatchFill
                           style={{ color: "#FFCC33" }}
                           className="mx-1"
@@ -631,7 +631,7 @@ function Attandents(props) {
                       </td>
                     ) : (
                       <td>
-                        {t.isChecked.toString()}
+                        ไม่ได้เข้าเรียน
                         <HiIcons.HiMinusCircle
                           style={{ color: "red" }}
                           className="mx-1"

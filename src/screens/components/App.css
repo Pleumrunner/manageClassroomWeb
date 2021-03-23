@@ -161,6 +161,11 @@ body{
   color: #9E76B4;
 }
 
+.text{
+  font-weight: bold;
+  color: #9E76B4;
+}
+
 .emty_seat{
   width: 95%;
   padding: 5px;

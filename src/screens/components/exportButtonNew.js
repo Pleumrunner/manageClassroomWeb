@@ -90,7 +90,7 @@ class App extends React.Component {
             headerCellOptions={{
               textAlign: "center",
             }}
-            locked={true}
+            // locked={true}
             width={300}
           >
             <ExcelExportColumn
@@ -126,7 +126,7 @@ class App extends React.Component {
                   <ExcelExportColumn
                     key={idx}
                     field={field}
-                    locked={field === "studentID"}
+                    // locked={field === "studentID"}
                     width={100}
                   />
                 ))
@@ -134,8 +134,16 @@ class App extends React.Component {
               }
             </ExcelExportColumnGroup>
             <ExcelExportColumn
-              title="Present,Late"
+              title="Present"
               field="present"
+              width={100}
+              headerCellOptions={{
+                textAlign: "center",
+              }}
+            />
+            <ExcelExportColumn
+              title="Late"
+              field="late"
               width={100}
               headerCellOptions={{
                 textAlign: "center",
@@ -158,8 +166,16 @@ class App extends React.Component {
               }}
             />
             <ExcelExportColumn
-              title="Percentage(Present,Late)"
+              title="Present(%)"
               field="presentPercentage"
+              width={150}
+              headerCellOptions={{
+                textAlign: "center",
+              }}
+            />
+            <ExcelExportColumn
+              title="Late(%)"
+              field="latePercentage"
               width={150}
               headerCellOptions={{
                 textAlign: "center",

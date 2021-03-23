@@ -324,6 +324,8 @@ function Home(props) {
                       {t.duplicatedDay[5] == true ? <td>ศ.</td> : null}
                       {t.duplicatedDay[6] == true ? <td>ส.</td> : null}
                       {t.startTime} - {t.endTime}
+                      <br/>
+                      {moment(t.startDate).format("DD/MM/YYYY")} - {moment(t.endDate).format("DD/MM/YYYY")}
                     </td>
                     <td>{t.isLocationSet == true ? <td>ระบุสถานที่</td> : <td>ออนไลน์</td>}</td>
                     <td>{t.desc}</td>
@@ -343,7 +345,7 @@ function Home(props) {
                       {t.sessionStatus === -99 ? (
                         <button
                           data-toggle="modal"
-                          className="btn-warning btn"
+                          className="btn-warning btn mx-1"
                           data-target="#importStudentModal"
                           onClick={() =>
                             setSelectClassData({
@@ -414,7 +416,7 @@ function Home(props) {
                             setEditEndDate(new Date(t.endDate));
                           }}
                         >
-                          แก้ไขข้อมูลห้อง
+                          แก้ไข
                         </button>
                       ) : (
                         <></>
@@ -435,7 +437,7 @@ function Home(props) {
                           setSelectClassCurrentDate(t.currentDate);
                         }}
                       >
-                        ยกเลิกห้องเช็คชื่อวันนี้
+                        ยกเลิก
                       </button>
                       <button
                         type="button"
@@ -453,7 +455,7 @@ function Home(props) {
                           setSelectClassCurrentDate(t.currentDate);
                         }}
                       >
-                        ยกเลิกห้องเช็คชื่อทั้งหมด
+                        ลบห้อง
                       </button>
                     </td>
                   </tr>
@@ -470,8 +472,6 @@ function Home(props) {
               <h5 className="modal-title head_text">เพิ่มรายชื่อนักศึกษา</h5>
             </div>
             <h5 className="mx-2">กรุณาใส่ไฟล์ชื่อนักศึกษาภาษาอังกฤษ</h5>
-            <ExcelReader className="m-2" classData={selectedClassData} />
-            <h5 className="mx-2">กรุณาใส่ไฟล์ชื่อนักศึกษาภาษาไทย</h5>
             <ExcelReader className="m-2" classData={selectedClassData} />
             <div className="modal-footer">
               <button

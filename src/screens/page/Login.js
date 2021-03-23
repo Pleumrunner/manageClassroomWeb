@@ -50,8 +50,9 @@ function Login() {
       <div className="container">
         <div className="App-logo">
           <h1>
-            <img src="/Chiang_Mai_University_Logo.png" width="400px" />
+            <img src={require( "../../image/006.png")} width="400px" />
           </h1>
+          <h3 className="text">CMU ATTENDANCE</h3>
         </div>
         <button
           type="button"
@@ -66,11 +67,11 @@ function Login() {
         </button>
         <button
           type="button"
-          className="bt btn"
+          className="bt btn mt-3"
           href="#"
           onClick={() => SignOut()}
         >
-          LOGIN WITH CMU ACCOUNT
+          Sign out
         </button>
       </div>
     </div>
