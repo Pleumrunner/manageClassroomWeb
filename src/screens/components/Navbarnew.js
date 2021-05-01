@@ -18,7 +18,7 @@ export function Navbarnew() {
       <div className="rounded float-right">
         <th>
           <td className="mt-4">
-            <h6>{teacherIDState}</h6>
+            <h6>PAWARIS SUEAAEIM</h6>
           </td>
           <td>
             <Link to="/login" className="menu-bars-user">

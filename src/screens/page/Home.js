@@ -5,19 +5,14 @@ import "react-datepicker/dist/react-datepicker.css";
 import "../components/App.css";
 import ExcelReader from "../components/ExcelReader";
 import DatePicker from "react-datepicker";
-import { DateRange } from "react-date-range";
 import "react-date-range/dist/styles.css"; // main css file
 import "react-date-range/dist/theme/default.css"; // theme css file
-import firebase from "../../config/firebaseConfig";
-
-const db = firebase.firestore();
 
 const url = require("../components/urlConfig");
 
 const moment = require("moment");
 
 function Home(props) {
-  const [value, onChange] = useState(new Date());
   const [currentDate, setcurrentDate] = useState(
     moment(new Date()).format("YYYY-MM-DD").toString()
   );
@@ -48,10 +43,6 @@ function Home(props) {
   const [teacherIDState, setTeacherIDState] = useState(null);
   const [selectedDate, setSelectedDate] = useState(new Date());
 
-  const [editClassStartDate, setEditClassStartDate] = useState(null);
-  const [editClassEndDate, setEditClassEndDate] = useState(null);
-  const [editClassDupDay, setEditClassDupDay] = useState(null);
-
   const ExampleCustomInput = ({ value, onClick }) => (
     <button className="bt btn" onClick={onClick}>
       <FcIcons.FcCalendar className="mr-3 menu-bars" />
@@ -76,34 +67,6 @@ function Home(props) {
     transformHeader: (header) => header.toLowerCase().replace(/\W/g, "_"),
   };
 
-  // useEffect(() => {
-  //   if (teacherIDState != null && selectedDate != null) {
-  //     var mySessionData = [];
-  //     const subscriber = db
-  //       .collection("Classroom")
-  //       .doc(teacherIDState)
-  //       .collection("sessions")
-  //       .onSnapshot((querySnapshot) => {
-  //         // console.log("Total users: ", querySnapshot.size);
-
-  //         querySnapshot.forEach((classData) => {
-  //           // console.log(classData.id, classData.data());
-  //           const myClassData = classData.data();
-  //           const regisDateList = myClassData.registeredDay;
-  //           if (regisDateList.includes(moment(selectedDate).format("YYYY-MM-DD").toString())) {
-  //             // console.log(myClassData);
-  //             mySessionData.push(myClassData);
-  //           }
-  //         });
-  //         console.log(mySessionData);
-  //         setSessionsData(mySessionData);
-  //       });
-
-  //     // Stop listening for updates when no longer required
-  //     return () => subscriber();
-  //   }
-  // }, [selectedDate, teacherIDState]);
-
   useEffect(() => {
     const interval = setInterval(() => {
       setcurrentDate(moment(new Date()).format("YYYY-MM-DD").toString());
@@ -122,19 +85,6 @@ function Home(props) {
 
     if (teacherIDState != null) fetchClassAPI();
   }, [selectedDate, teacherIDState]);
-
-  // useEffect(() => {
-  //   // if(sessionsData.length != 0){
-  //   // setEditSun(sessionsData.duplicatedDay[0])
-  //   // setEditMon(sessionsData.duplicatedDay[1])
-  //   // setEditTue(sessionsData.duplicatedDay[2])
-  //   // setEditWed(sessionsData.duplicatedDay[3])
-  //   // setEditThu(sessionsData.duplicatedDay[4])
-  //   // setEditFri(sessionsData.duplicatedDay[5])
-  //   // setEditSat(sessionsData.duplicatedDay[6])
-  //   // }
-  //   console.log(sessionsData);
-  // }, [sessionsData]);
 
   const onChangeTextClassID = (event) => {
     setEditClassId(event.target.value);

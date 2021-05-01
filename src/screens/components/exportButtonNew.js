@@ -90,7 +90,6 @@ class App extends React.Component {
             headerCellOptions={{
               textAlign: "center",
             }}
-            // locked={true}
             width={300}
           >
             <ExcelExportColumn
@@ -126,7 +125,6 @@ class App extends React.Component {
                   <ExcelExportColumn
                     key={idx}
                     field={field}
-                    // locked={field === "studentID"}
                     width={100}
                   />
                 ))

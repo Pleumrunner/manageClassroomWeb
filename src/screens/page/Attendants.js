@@ -3,7 +3,6 @@ import { useState, useEffect } from "react";
 import * as HiIcons from "react-icons/hi";
 import * as MdIcons from "react-icons/md";
 import * as BsIcons from "react-icons/bs";
-// import Chart from "../components/chartAtt";
 import {
   VictoryBar,
   VictoryChart,
@@ -18,14 +17,11 @@ const url = require("../components/urlConfig");
 const moment = require("moment");
 
 function Attandents(props) {
-  const [value, onChange] = useState(new Date());
-  const [isShowModal, setShowModal] = useState(false);
   const [studentNameModal, setStudentNameModal] = useState("");
   const [studentIDModal, setStudentIDModal] = useState("");
   const [teacherIDState, setTeacherIDState] = useState(null);
   const [attClassState, setAttClassState] = useState({});
   const [attClassStudent, setAttClassStudent] = useState([]);
-  const [studentRemove, setStudentRemove] = useState();
   const [addStudentName, setAddStudentName] = useState(null);
   const [addStudentID, setAddStudentID] = useState(null);
   const [checkList, setCheckList] = useState([]);
@@ -33,8 +29,6 @@ function Attandents(props) {
   const [studentStatChart, setStudentStatChart] = useState({});
 
   useEffect(() => {
-    // console.log(props.location.state.detailClass);
-    // console.log(props.location.state.selectedDate);
     var teacherID = localStorage.getItem("teacherID");
     setTeacherIDState(teacherID);
   }, []);

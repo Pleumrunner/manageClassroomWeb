@@ -11,21 +11,10 @@ const url = require("../components/urlConfig");
 const moment = require("moment");
 
 function Seatmap(props) {
-  const [value, onChange] = useState(new Date());
   const [teacherIDState, setTeacherIDState] = useState(null);
   const [seatmapClassState, setSeatmapClassState] = useState({});
   const [seatMaps, setSeapMaps] = useState([]);
   const [profileModal, setProfileModal] = useState("");
-
-  // useEffect(() => {
-  //   db.collection("Students")
-  //     .get()
-  //     .then((querySnapshot) => {
-  //       querySnapshot.forEach((doc) => {
-  //         console.log(`${doc.id} => ${doc.data()}`);
-  //       });
-  //     });
-  // }, []);
 
   useEffect(() => {
     var teacherID = localStorage.getItem("teacherID");
